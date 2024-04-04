@@ -30,11 +30,6 @@ def employee_is_valid(employee):
         if key != 'name':
             return False
     return True
-	# for key in employee.keys():
-	# 	if key != 'name':
- 	# 		return False
-	# return True
-
 
 @app.route('/employees', methods=['POST'])
 def create_employee():

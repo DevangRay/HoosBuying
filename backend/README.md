@@ -6,3 +6,4 @@ pip install -r requirements.txt?? something like that
 
 
 run with py app.py
+pip install pymysql
