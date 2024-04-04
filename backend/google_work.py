@@ -17,8 +17,8 @@ def connect():
     print("CONNECTION TO RETURN IS", connection)
     return connection
 
-@app.route('/getRecord', methods=['GET'])
-def getRecord():
+@app.route('/getAllUsers', methods=['GET'])
+def getAllUsers():
     connection = connect()
     result = "GOT NOTHING PAL"
     with connection:
@@ -26,7 +26,7 @@ def getRecord():
         # Create a new record
             sql = "SELECT * FROM `User`"
             cursor.execute(sql)
-            result = cursor.fetchone()
+            result = cursor.fetchall()
             # print("RESULT is ", result)
 
     # connection is not autocommit by default. So you must commit to save
