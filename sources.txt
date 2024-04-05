@@ -1,1 +1,2 @@
 https://www.moesif.com/blog/technical/api-development/Building-RESTful-API-with-Flask/
+https://medium.com/@mterrano1/cors-in-a-flask-api-38051388f8cc
