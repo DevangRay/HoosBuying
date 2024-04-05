@@ -1,7 +1,9 @@
 import json
 import pymysql
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 def connect():
     # Please fill in these values.
@@ -32,7 +34,9 @@ def getAllUsers():
     # connection is not autocommit by default. So you must commit to save
     # your changes.
     # connection.commit()
-    return result
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
     
 
 if __name__ == '__main__':
