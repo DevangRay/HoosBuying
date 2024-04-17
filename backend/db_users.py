@@ -1,9 +1,7 @@
-import json
 import pymysql
 import requests
-import bcrypt
 import auth
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
@@ -49,10 +47,10 @@ def control_auth(subpath):
         token = request.json['token']
         return auth.checkToken(token)
     elif subpath == "login":
-        """
-        check user name and password
-        """
-        return "you are in login"
+        print(request.json)
+        username = request.json["username"]
+        password = request.json["password"]
+        return auth.login(username, password)
     else:
         return "Found no endpoint in auth"
 
@@ -68,37 +66,20 @@ def testPostToken():
         return res.text, res.status_code
     else:
         return "Uncontrolled error, likely a bug", 404
-
-def getUser(username):
-    connection = connect()
-    result = "GOT NOTHING PAL"
-    with connection:
-        with connection.cursor() as cursor:
-        # Create a new record
-            sql = f"SELECT * FROM `User` where username = \"{username}\""
-            cursor.execute(sql)
-            result = cursor.fetchone()
-    return result
-
-@app.route('/login', methods=['POST'])
-def login():
-    user = getUser(request.form['username'])
-    print(user['password'])
-    print(request.form["password"])
-    if not bcrypt.checkpw(str.encode(request.form["password"]),str.encode(user['password'])):
-        abort(401,"FUCK YOU DEVANG")
-
-
-# ISSUE A TOKEN
-    response = {
-        "username" : user['username'],
-        "token" : "PROOF OF CONCEPT"
-
-    }
-    response = jsonify(response)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     
-    return response
+@app.route('/testLogin', methods=['GET'])
+def testLogin():
+    dictToSend = {
+        "username": "pony_boy",
+        "password": "password"
+        }
+    
+    res = requests.post("http://127.0.0.1:5000/auth/login", json=dictToSend)
+    print("testLogin response is", res)
+    if res.status_code == 200 or res.status_code == 401:
+        return res.text, res.status_code
+    else:
+        return "Uncontrolled error, likely a bug", 404
 
   
 if __name__ == '__main__':
