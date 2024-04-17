@@ -17,10 +17,12 @@ const actions = {
 
     UserForm.append('username', form.username)
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.genSalt(saltRounds,form.password)
+    const hashedPassword = await bcrypt.hash(form.password,saltRounds)
     UserForm.append('password', hashedPassword)
-
+    console.log("--" + hashedPassword+"--")
     await axios.post('register', UserForm)
+
+    UserForm.set('password', form.password)
     await dispatch('LogIn', UserForm)
   },
 

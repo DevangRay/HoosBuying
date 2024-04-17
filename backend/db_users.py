@@ -1,6 +1,7 @@
 import json
 import pymysql
 import requests
+import bcrypt
 from flask import Flask, jsonify, abort, request
 from flask_cors import CORS
 app = Flask(__name__)
@@ -102,11 +103,20 @@ def getUser(username):
 
 @app.route('/login', methods=['POST'])
 def login():
-    print(request.form['username'])
-    if request.form['username'] == "devang":
+    user = getUser(request.form['username'])
+    print(user['password'])
+    print(request.form["password"])
+    if not bcrypt.checkpw(str.encode(request.form["password"]),str.encode(user['password'])):
         abort(401,"FUCK YOU DEVANG")
-    result = getUser(request.form['username'])
-    response = jsonify(result)
+
+
+# ISSUE A TOKEN
+    response = {
+        "username" : user['username'],
+        "token" : "PROOF OF CONCEPT"
+
+    }
+    response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     
     return response

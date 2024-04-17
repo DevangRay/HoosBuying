@@ -19,7 +19,6 @@
   
   <script>
   import { mapActions } from "vuex";
-  import bcrypt from 'bcryptjs'
 
   export default {
     name: "Login",
@@ -38,9 +37,7 @@
       async submit() {
         const User = new FormData();
         User.append("username", this.form.username);
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.genSalt(saltRounds,this.form.password)
-        User.append('password', hashedPassword)
+        User.append('password', this.form.password);
         try {
             await this.LogIn(User);
             this.$router.push("/getAllUsers");
