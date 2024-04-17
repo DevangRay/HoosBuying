@@ -8,9 +8,6 @@ CORS(app)
 
 
 def connect():
-    # Please fill in these values.
-    # project_id = "cs4750db-413417"
-    print("IN CONNECT")
     connection = pymysql.connect(
         host="34.145.170.154", 
         user="website", 
@@ -18,8 +15,10 @@ def connect():
         database= "HoosBuying",
         cursorclass=pymysql.cursors.DictCursor
     )
-    print("CONNECTION TO RETURN IS", connection)
-    return connection
+    if connection:
+        return connection
+    else:
+        return "Connection Error", 404
 
 
 @app.route('/getAllUsers', methods=['GET'])
@@ -28,11 +27,10 @@ def getAllUsers():
     result = "GOT NOTHING PAL"
     with connection:
         with connection.cursor() as cursor:
-        # Create a new record
+        # Create a sql statement
             sql = "SELECT * FROM `User`"
             cursor.execute(sql)
             result = cursor.fetchall()
-            # print("RESULT is ", result)
 
     # connection is not autocommit by default. So you must commit to save
     # your changes.
@@ -42,11 +40,11 @@ def getAllUsers():
     return response
 
 
+# TEST FUNCTION ONLY
 @app.route('/testPostToken', methods=['GET'])
 def testPostToken():
     dictToSend = {"token": "good"}
     res = requests.post("http://127.0.0.1:5000/postToken", json=dictToSend)
-    # print("response from server is", res, res.status_code)
     if res.status_code == 200:
         return "successful get token", 200
     else:
@@ -56,24 +54,20 @@ def testPostToken():
 @app.route('/postToken', methods=['POST'])
 def checkToken():
     token = request.json['token']
-    print("token issss", token)
     
     connection = connect()
     result = "GOT NOTHING PAL"
     with connection:
         with connection.cursor() as cursor:
-        # Create a new record
+        # call a stored procedure
             cursor.callproc('auth_select', [token,])
             result = cursor.fetchall()
         
     if not result:
-        return "bad post token", 401
+        return "Error: No Token Found", 401
     else:
-        return "Success post token", 200
+        return "Success, Token Found", 200
 
     
 if __name__ == '__main__':
    app.run(port=5000)
-#    print("IN MAIN")
-#    connection = connect()
-#    getRecord(connection)
