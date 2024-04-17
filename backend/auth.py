@@ -1,4 +1,6 @@
 import pymysql
+import random
+import string
 import bcrypt
 from db_users import connect
 from flask import Flask, jsonify
@@ -33,6 +35,14 @@ def getUser(username):
             cursor.execute(sql)
             result = cursor.fetchone()
     return result
+
+
+def create_random_token(length):
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    print("Random string of length", length, "is:", result_str)
+    return result_str
+
     
 def login(username, password):
     # check username/password is valid
@@ -41,17 +51,31 @@ def login(username, password):
     db_password = user["password"]
     print(db_password)
     
+    
     if not bcrypt.checkpw(str.encode(password),str.encode(db_password)):
         return f'password: {password}, is wrong', 401
     else:
+        random_string = create_random_token(50)
+        print("random string is", random_string)
+        
         # ISSUE A TOKEN
-        response = {
-            "username" : username,
-            "token" : "PROOF OF CONCEPT"
+        connection = connect()
+        result = "GOT NOTHING PAL"
+        with connection.cursor() as cursor:
+        # call a stored procedure    
+            cursor.callproc('auth_insert', [random_string,])
+            connection.commit()
+            result = cursor.fetchall()
+        print("result is", result)
+        
+        if result:
+            response = {
+                "username" : username,
+                "token" : random_string
 
-        }
-        response = jsonify(response)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
-
-    return f'you are in login, {username}, {password}', 200
+            }
+            response = jsonify(response)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
+        else:
+            return "Unable to login", 401

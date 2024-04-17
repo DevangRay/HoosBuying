@@ -46,6 +46,8 @@ def control_auth(subpath):
     if subpath == "checkToken":
         token = request.json['token']
         return auth.checkToken(token)
+    
+    # returns a dictionary with 'token' and 'username' keys
     elif subpath == "login":
         print(request.json)
         username = request.json["username"]
