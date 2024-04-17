@@ -39,19 +39,20 @@ def getAllUsers():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/getPostToken', methods=['GET'])
-def send_post_token():
-    dictToSend = {"token": "bad"}
+@app.route('/testPostToken', methods=['GET'])
+def testPostToken():
+    dictToSend = {"token": "good"}
     res = requests.post("http://127.0.0.1:5000/postToken", json=dictToSend)
-    print("response from server", res.text)
-    result = res.json()
-    response = jsonify(result)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    # print("response from server is", res.text)
+    if res.text == "Success":
+        return "successful token", 200
+    else:
+        return "bad token", 401
     
-@app.route('/postToken', methods=['POST'])
-def postToken():
-    token = request.form
+@app.route('/checkToken', methods=['POST'])
+def checkToken():
+    token = request.json['token']
+    print("token issss", token)
     connection = connect()
     result = "GOT NOTHING PAL"
     with connection:
@@ -59,15 +60,11 @@ def postToken():
         # Create a new record
             cursor.execute("CALL auth_select(\"" + token + "\")")
             result = cursor.fetchall()
-            # print("RESULT is ", result)
-
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    # connection.commit()
+            
     if not result:
-        return abort(401)
+        return "bad token", 401
     else:
-        return "Success", 200
+        return "Success token", 200
 
 @app.route('/getToken', methods=['GET'])
 def getToken():
