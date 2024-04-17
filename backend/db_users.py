@@ -2,15 +2,14 @@ import json
 import pymysql
 import requests
 import bcrypt
+import auth
 from flask import Flask, jsonify, abort, request
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+
 def connect():
-    # Please fill in these values.
-    # project_id = "cs4750db-413417"
-    print("IN CONNECT")
     connection = pymysql.connect(
         host="34.145.170.154", 
         user="website", 
@@ -18,8 +17,12 @@ def connect():
         database= "HoosBuying",
         cursorclass=pymysql.cursors.DictCursor
     )
-    print("CONNECTION TO RETURN IS", connection)
-    return connection
+    if connection:
+        return connection
+    else:
+        return "Connection Error", 404
+    
+
 
 @app.route('/getAllUsers', methods=['GET'])
 def getAllUsers():
@@ -27,11 +30,10 @@ def getAllUsers():
     result = "GOT NOTHING PAL"
     with connection:
         with connection.cursor() as cursor:
-        # Create a new record
+        # Create a sql statement
             sql = "SELECT * FROM `User`"
             cursor.execute(sql)
             result = cursor.fetchall()
-            # print("RESULT is ", result)
 
     # connection is not autocommit by default. So you must commit to save
     # your changes.
@@ -40,55 +42,32 @@ def getAllUsers():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/getPostToken', methods=['GET'])
-def send_post_token():
-    dictToSend = {"token": "bad"}
-    res = requests.post("http://127.0.0.1:5000/postToken", json=dictToSend)
-    print("response from server", res.text)
-    result = res.json()
-    response = jsonify(result)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-    
-@app.route('/postToken', methods=['POST'])
-def postToken():
-    token = request.form
-    connection = connect()
-    result = "GOT NOTHING PAL"
-    with connection:
-        with connection.cursor() as cursor:
-        # Create a new record
-            cursor.execute("CALL auth_select(\"" + token + "\")")
-            result = cursor.fetchall()
-            # print("RESULT is ", result)
+@app.route('/auth/<path:subpath>', methods=['GET', 'POST'])
+def control_auth(subpath):
 
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    # connection.commit()
-    if not result:
-        return abort(401)
+    if subpath == "checkToken":
+        token = request.json['token']
+        return auth.checkToken(token)
+    elif subpath == "login":
+        """
+        check user name and password
+        """
+        return "you are in login"
     else:
-        return "Success", 200
+        return "Found no endpoint in auth"
 
-@app.route('/getToken', methods=['GET'])
-def getToken():
-    connection = connect()
-    result = "GOT NOTHING PAL"
-    with connection:
-        with connection.cursor() as cursor:
-        # Create a new record
-            cursor.execute("CALL auth_select(\"good\")")
-            result = cursor.fetchall()
-            # print("RESULT is ", result)
 
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    # connection.commit()
-    if not result:
-        return abort(401)
+# TEST FUNCTION ONLY
+@app.route('/testPostToken', methods=['GET'])
+def testPostToken():
+    dictToSend = {"token": "good"}
+    print("sending to control function")
+    res = requests.post("http://127.0.0.1:5000/auth/checkToken", json=dictToSend)
+    print(res)
+    if res.status_code == 200 or res.status_code == 401:
+        return res.text, res.status_code
     else:
-        return "Success", 200
-    
+        return "Uncontrolled error, likely a bug", 404
 
 def getUser(username):
     connection = connect()
@@ -121,9 +100,6 @@ def login():
     
     return response
 
-
+  
 if __name__ == '__main__':
    app.run(port=5000)
-#    print("IN MAIN")
-#    connection = connect()
-#    getRecord(connection)
