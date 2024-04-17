@@ -1,6 +1,7 @@
 import json
 import pymysql
 import requests
+import bcrypt
 import auth
 from flask import Flask, jsonify, abort, request
 from flask_cors import CORS
@@ -68,6 +69,37 @@ def testPostToken():
     else:
         return "Uncontrolled error, likely a bug", 404
 
+def getUser(username):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            sql = f"SELECT * FROM `User` where username = \"{username}\""
+            cursor.execute(sql)
+            result = cursor.fetchone()
+    return result
+
+@app.route('/login', methods=['POST'])
+def login():
+    user = getUser(request.form['username'])
+    print(user['password'])
+    print(request.form["password"])
+    if not bcrypt.checkpw(str.encode(request.form["password"]),str.encode(user['password'])):
+        abort(401,"FUCK YOU DEVANG")
+
+
+# ISSUE A TOKEN
+    response = {
+        "username" : user['username'],
+        "token" : "PROOF OF CONCEPT"
+
+    }
+    response = jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
     
+    return response
+
+  
 if __name__ == '__main__':
    app.run(port=5000)

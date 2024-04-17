@@ -1,6 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import NavBar from './components/NavBar.vue'
+
 </script>
 
 <template>
@@ -8,13 +10,7 @@ import HelloWorld from './components/HelloWorld.vue'
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/search">Search</RouterLink>
-        <RouterLink to="/chat">Chat</RouterLink>
-        <RouterLink to="/listing">Listing</RouterLink>
-        <RouterLink to="/getAllUsers">See Users</RouterLink>
-      </nav>
+      <NavBar></NavBar>
     </div>
   </header>
 
@@ -84,3 +80,5 @@ nav a:first-of-type {
   }
 }
 </style>
+
+
