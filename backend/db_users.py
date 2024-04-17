@@ -47,8 +47,10 @@ def testPostToken():
     res = requests.post("http://127.0.0.1:5000/postToken", json=dictToSend)
     if res.status_code == 200:
         return "Succesfully retrieved token", 200
+    elif res.status_code == 401:
+        return "Did not retrieve token", 401
     else:
-        return "Did not retrieve token, bad or bug?", 401
+        return "Uncontrolled error, likely a bug"
     
     
 @app.route('/postToken', methods=['POST'])
