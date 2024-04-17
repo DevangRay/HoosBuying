@@ -1,6 +1,6 @@
 import json
 import pymysql
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
@@ -37,7 +37,30 @@ def getAllUsers():
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+
+def getUser(username):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            sql = f"SELECT * FROM `User` where username = \"{username}\""
+            cursor.execute(sql)
+            result = cursor.fetchone()
+    return result
+
+@app.route('/login', methods=['POST'])
+def login():
+    print(request.form['username'])
+    if request.form['username'] == "devang":
+        abort(401,"FUCK YOU DEVANG")
+    result = getUser(request.form['username'])
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
     
+    return response
+
 
 if __name__ == '__main__':
    app.run(port=5000)
