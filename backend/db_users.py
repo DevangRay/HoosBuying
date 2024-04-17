@@ -61,8 +61,9 @@ def checkToken():
     result = "GOT NOTHING PAL"
     with connection:
         with connection.cursor() as cursor:
-        # call a stored procedure
+        # call a stored procedure    
             cursor.callproc('auth_select', [token,])
+            connection.commit()
             result = cursor.fetchall()
         
     if not result:
