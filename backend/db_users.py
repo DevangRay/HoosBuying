@@ -1,6 +1,7 @@
 import json
 import pymysql
-from flask import Flask, jsonify
+import requests
+from flask import Flask, jsonify, abort, request
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
@@ -37,6 +38,55 @@ def getAllUsers():
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+@app.route('/getPostToken', methods=['GET'])
+def send_post_token():
+    dictToSend = {"token": "bad"}
+    res = requests.post("http://127.0.0.1:5000/postToken", json=dictToSend)
+    print("response from server", res.text)
+    result = res.json()
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+    
+@app.route('/postToken', methods=['POST'])
+def postToken():
+    token = request.form
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            cursor.execute("CALL auth_select(\"" + token + "\")")
+            result = cursor.fetchall()
+            # print("RESULT is ", result)
+
+    # connection is not autocommit by default. So you must commit to save
+    # your changes.
+    # connection.commit()
+    if not result:
+        return abort(401)
+    else:
+        return "Success", 200
+
+@app.route('/getToken', methods=['GET'])
+def getToken():
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            cursor.execute("CALL auth_select(\"good\")")
+            result = cursor.fetchall()
+            # print("RESULT is ", result)
+
+    # connection is not autocommit by default. So you must commit to save
+    # your changes.
+    # connection.commit()
+    if not result:
+        return abort(401)
+    else:
+        return "Success", 200
     
 
 if __name__ == '__main__':
