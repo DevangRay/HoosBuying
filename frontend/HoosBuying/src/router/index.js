@@ -18,6 +18,12 @@ const router = createRouter({
       meta: { guest:true},
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/Register.vue'),
+      meta: { guest:true},
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -29,7 +35,7 @@ const router = createRouter({
       path: '/getAllUsers',
       name: 'getAllUsers',
       component: () => import('../views/UsersView.vue'),
-      meta: { guest: true },
+      meta: { requiresAuth: true },
     }
   ],
   

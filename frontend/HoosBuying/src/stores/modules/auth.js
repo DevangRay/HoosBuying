@@ -1,4 +1,6 @@
 import axios from 'axios';
+import bcrypt from 'bcryptjs'
+
 
 const state = {
     user: null,
@@ -10,10 +12,15 @@ const getters = {
 };
 const actions = {
   async Register({dispatch}, form) {
-    await axios.post('register', form)
+    
     let UserForm = new FormData()
+
     UserForm.append('username', form.username)
-    UserForm.append('password', form.password)
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.genSalt(saltRounds,form.password)
+    UserForm.append('password', hashedPassword)
+
+    await axios.post('register', UserForm)
     await dispatch('LogIn', UserForm)
   },
 

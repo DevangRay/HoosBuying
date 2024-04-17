@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="register">
       <div>
         <form @submit.prevent="submit">
           <div>
@@ -7,44 +7,43 @@
             <input type="text" name="username" v-model="form.username" />
           </div>
           <div>
+            <label for="full_name">Full Name:</label>
+            <input type="text" name="full_name" v-model="form.full_name" />
+          </div>
+          <div>
             <label for="password">Password:</label>
             <input type="password" name="password" v-model="form.password" />
           </div>
           <button type="submit">Submit</button>
         </form>
-        <p v-if="showError" id="error">Username or Password is incorrect</p>
       </div>
+      <p v-if="showError" id="error">Username already exists</p>
     </div>
   </template>
   
   <script>
   import { mapActions } from "vuex";
-  import bcrypt from 'bcryptjs'
-
+  
   export default {
-    name: "Login",
+    name: "Register",
     components: {},
     data() {
       return {
         form: {
           username: "",
+          full_name: "",
           password: "",
         },
         showError: false
       };
     },
     methods: {
-      ...mapActions(["LogIn"]),
+      ...mapActions(["Register"]),
       async submit() {
-        const User = new FormData();
-        User.append("username", this.form.username);
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.genSalt(saltRounds,this.form.password)
-        User.append('password', hashedPassword)
         try {
-            await this.LogIn(User);
-            this.$router.push("/getAllUsers");
-            this.showError = false
+          await this.Register(this.form);
+          this.$router.push("/posts");
+          this.showError = false
         } catch (error) {
           this.showError = true
         }
@@ -52,7 +51,6 @@
     },
   };
   </script>
-  
   <style scoped>
   * {
     box-sizing: border-box;
