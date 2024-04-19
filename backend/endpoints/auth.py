@@ -7,13 +7,8 @@ print(sys.path)
 import random
 import string
 import bcrypt
-# from db_users import connect
 from backend.endpoints.connector import connect
-from flask import Flask, jsonify
-from flask_cors import CORS
-from markupsafe import escape
-# app = Flask(__name__)
-# CORS(app)
+from flask import jsonify
 
 
 def getAllUsers():

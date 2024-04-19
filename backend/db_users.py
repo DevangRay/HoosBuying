@@ -7,6 +7,7 @@ print("db_users sys_path is", sys.path)
 import pymysql
 import requests
 import endpoints.auth as auth
+import endpoints.tags as tags
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -35,6 +36,10 @@ def control_auth(subpath):
         return auth.login(username, password)
     else:
         return "Found no endpoint in auth"
+    
+@app.route('/tags/', methods=['GET'])
+def control_tags():
+    return tags.getAllTags()
 
 
 # TEST FUNCTION ONLY
