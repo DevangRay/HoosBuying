@@ -50,8 +50,7 @@ def getUser(username):
     with connection:
         with connection.cursor() as cursor:
         # Create a new record
-            sql = f"SELECT * FROM `User` where username = \"{username}\""
-            cursor.execute(sql)
+            cursor.execute("SELECT * FROM `User` WHERE username = %s", (username,))
             result = cursor.fetchone()
     return result
 

@@ -8,6 +8,7 @@ import pymysql
 import requests
 import endpoints.auth as auth
 import endpoints.tags as tags
+import endpoints.listings as listings
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -27,10 +28,10 @@ def control_auth(subpath):
     
     # returns a dictionary with 'token' and 'username' keys
     elif subpath == "login":
-        print("in auth/login with request", request)
-        print("request.form is", request.form)
-        print("user", request.form['username'])
-        print("password", request.form['password'])
+        # print("in auth/login with request", request)
+        # print("request.form is", request.form)
+        # print("user", request.form['username'])
+        # print("password", request.form['password'])
         username = request.form["username"]
         password = request.form["password"]
         return auth.login(username, password)
@@ -40,6 +41,28 @@ def control_auth(subpath):
 @app.route('/tags/', methods=['GET'])
 def control_tags():
     return tags.getAllTags()
+
+@app.route('/listings/<path:subpath>', methods=['GET', 'POST'])
+def control_listings(subpath):
+    if subpath == "getAll":
+        return listings.getAllListings()
+    elif subpath == "insert":
+        description = request.form["description"]
+        status_id = request.form["status_id"]
+        delivery_id = request.form["delivery_id"]
+        owner_id = request.form["owner_id"]
+        title = request.form["title"]
+        price = request.form["price"]
+        return listings.insertListing(description, status_id, delivery_id, owner_id, title, price)
+    elif subpath == "update":
+        dict = {
+            "description": "new fuck you",
+            "status_id": 1,
+            "price": float(69.00)
+        }
+        return listings.updateListing(dict, 13), 200
+    else:
+        return "Found no endpoint in auth"
 
 
 # TEST FUNCTION ONLY
