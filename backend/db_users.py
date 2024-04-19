@@ -1,58 +1,35 @@
+from pathlib import Path
+import sys
+path_root = Path(__file__).parents[2]
+sys.path.append(str(path_root))
+print("db_users sys_path is", sys.path)
+
 import pymysql
 import requests
-import auth
+import endpoints.auth as auth
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
 app = Flask(__name__)
 CORS(app)
 
-
-def connect():
-    connection = pymysql.connect(
-        host="34.145.170.154", 
-        user="website", 
-        password="websitepassword", 
-        database= "HoosBuying",
-        cursorclass=pymysql.cursors.DictCursor
-    )
-    if connection:
-        return connection
-    else:
-        return "Connection Error", 404
-    
-
-
 @app.route('/getAllUsers', methods=['GET'])
-def getAllUsers():
-    connection = connect()
-    result = "GOT NOTHING PAL"
-    with connection:
-        with connection.cursor() as cursor:
-        # Create a sql statement
-            sql = "SELECT * FROM `User`"
-            cursor.execute(sql)
-            result = cursor.fetchall()
+def control_all_users():
+    return auth.getAllUsers()
 
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    # connection.commit()
-    response = jsonify(result)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
 
 @app.route('/auth/<path:subpath>', methods=['GET', 'POST'])
 def control_auth(subpath):
-
     if subpath == "checkToken":
         token = request.json['token']
         return auth.checkToken(token)
     
     # returns a dictionary with 'token' and 'username' keys
     elif subpath == "login":
-        # print("in auth/login with request", request)
-        # print("request.form is", request.form)
-        # print("user", request.form['username'])
-        # print("password", request.form['password'])
+        print("in auth/login with request", request)
+        print("request.form is", request.form)
+        print("user", request.form['username'])
+        print("password", request.form['password'])
         username = request.form["username"]
         password = request.form["password"]
         return auth.login(username, password)
