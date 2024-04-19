@@ -49,9 +49,12 @@ def control_auth(subpath):
     
     # returns a dictionary with 'token' and 'username' keys
     elif subpath == "login":
-        print(request.json)
-        username = request.json["username"]
-        password = request.json["password"]
+        # print("in auth/login with request", request)
+        # print("request.form is", request.form)
+        # print("user", request.form['username'])
+        # print("password", request.form['password'])
+        username = request.form["username"]
+        password = request.form["password"]
         return auth.login(username, password)
     else:
         return "Found no endpoint in auth"
