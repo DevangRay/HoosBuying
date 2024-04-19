@@ -42,6 +42,10 @@ def control_auth(subpath):
 def control_tags():
     return tags.getAllTags()
 
+@app.route('/listings/filter/<int:id>', methods=['GET'])
+def control_listings_filter(id):
+    return listings.filterByTag(id)
+
 @app.route('/listings/<path:subpath>', methods=['GET', 'POST'])
 def control_listings(subpath):
     if subpath == "getAll":
@@ -55,12 +59,9 @@ def control_listings(subpath):
         price = request.form["price"]
         return listings.insertListing(description, status_id, delivery_id, owner_id, title, price)
     elif subpath == "update":
-        dict = {
-            "description": "new fuck you",
-            "status_id": 1,
-            "price": float(69.00)
-        }
-        return listings.updateListing(dict, 13), 200
+        listing_id = request.form["listing_id"]
+        dict = request.form
+        return listings.updateListing(dict, listing_id=listing_id), 200
     else:
         return "Found no endpoint in auth"
 

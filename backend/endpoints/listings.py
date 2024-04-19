@@ -63,3 +63,16 @@ def updateListing(column_dict, listing_id):
             
     response = "listing is " + str(listing_id)
     return response
+
+def filterByTag(tag_id):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            cursor.execute("select l.*, dm.method_name, s.status_name, u.username, u.fname , u.lname , u.computing_id from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  join Status s on l.status_id = s.status_id join `User` u on l.owner_id = u.uid where l.listing_id IN (select listing_id from TagListing tl where tl.tag_id = %s)", (tag_id,))
+            result = cursor.fetchall()
+            
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
