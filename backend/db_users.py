@@ -1,7 +1,7 @@
-import json
 import pymysql
 import requests
-from flask import Flask, jsonify, abort, request
+import auth
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +19,7 @@ def connect():
         return connection
     else:
         return "Connection Error", 404
+    
 
 
 @app.route('/getAllUsers', methods=['GET'])
@@ -39,38 +40,49 @@ def getAllUsers():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/auth/<path:subpath>', methods=['GET', 'POST'])
+def control_auth(subpath):
+
+    if subpath == "checkToken":
+        token = request.json['token']
+        return auth.checkToken(token)
+    
+    # returns a dictionary with 'token' and 'username' keys
+    elif subpath == "login":
+        print(request.json)
+        username = request.json["username"]
+        password = request.json["password"]
+        return auth.login(username, password)
+    else:
+        return "Found no endpoint in auth"
+
 
 # TEST FUNCTION ONLY
 @app.route('/testPostToken', methods=['GET'])
 def testPostToken():
     dictToSend = {"token": "good"}
-    res = requests.post("http://127.0.0.1:5000/postToken", json=dictToSend)
-    if res.status_code == 200:
-        return "Succesfully retrieved token", 200
-    elif res.status_code == 401:
-        return "Did not retrieve token", 401
+    print("sending to control function")
+    res = requests.post("http://127.0.0.1:5000/auth/checkToken", json=dictToSend)
+    print(res)
+    if res.status_code == 200 or res.status_code == 401:
+        return res.text, res.status_code
     else:
-        return "Uncontrolled error, likely a bug"
+        return "Uncontrolled error, likely a bug", 404
     
+@app.route('/testLogin', methods=['GET'])
+def testLogin():
+    dictToSend = {
+        "username": "pony_boy",
+        "password": "password"
+        }
     
-@app.route('/postToken', methods=['POST'])
-def checkToken():
-    token = request.json['token']
-    
-    connection = connect()
-    result = "GOT NOTHING PAL"
-    with connection:
-        with connection.cursor() as cursor:
-        # call a stored procedure    
-            cursor.callproc('auth_select', [token,])
-            connection.commit()
-            result = cursor.fetchall()
-        
-    if not result:
-        return "Error: No Token Found", 401
+    res = requests.post("http://127.0.0.1:5000/auth/login", json=dictToSend)
+    print("testLogin response is", res)
+    if res.status_code == 200 or res.status_code == 401:
+        return res.text, res.status_code
     else:
-        return "Success, Token Found", 200
+        return "Uncontrolled error, likely a bug", 404
 
-    
+  
 if __name__ == '__main__':
    app.run(port=5000)
