@@ -27,7 +27,14 @@ const actions = {
   },
 
   async LogIn({commit}, user) {
-    await axios.post("auth/login", user);
+    await axios.post("auth/login", user)
+    // ADDING WAY TO SAVE TOKEN AND USERNAME IN RESPONSE
+    .then((response) => {
+      let token = response.data.token;
+      let user_name = response.data.username;
+      console.log("user is", user_name, "token is", token);
+    })
+    // END OF BLOCK
     await commit("setUser", user.get("username"));
   },
   async LogOut({ commit }) {

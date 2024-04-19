@@ -43,6 +43,7 @@
             this.$router.push("/getAllUsers");
             this.showError = false
         } catch (error) {
+          console.log("CAUGHT ERROR", error)
           this.showError = true
         }
       },
