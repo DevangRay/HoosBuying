@@ -4,11 +4,11 @@ path_root = Path(__file__).parents[2]
 sys.path.append(str(path_root))
 print("db_users sys_path is", sys.path)
 
-import pymysql
 import requests
 import endpoints.auth as auth
 import endpoints.tags as tags
 import endpoints.listings as listings
+import endpoints.conversation as conversation
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -62,6 +62,23 @@ def control_listings(subpath):
         listing_id = request.form["listing_id"]
         dict = request.form
         return listings.updateListing(dict, listing_id=listing_id), 200
+    else:
+        return "Found no endpoint in auth"
+    
+@app.route('/conversations/<path:subpath>/<int:user_id>', methods=['GET', 'POST'])
+def control_get_conversations(subpath, user_id):
+    if subpath == "getAll":
+        return conversation.getAllConversations(user_id)
+    else:
+        return "Found no endpoint in auth"
+    
+@app.route('/conversations/<path:subpath>', methods=['GET', 'POST'])
+def control_conversations(subpath):
+    if subpath == "insert":
+        conversation_id = request.form["conversation_id"]
+        user_id=request.form["user_id"]
+        message = request.form["message"]
+        return conversation.addNewMessage(conversation_id, user_id, message)
     else:
         return "Found no endpoint in auth"
 
