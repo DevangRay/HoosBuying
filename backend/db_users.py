@@ -9,7 +9,7 @@ import endpoints.auth as auth
 import endpoints.tags as tags
 import endpoints.listings as listings
 import endpoints.conversation as conversation
-from flask import Flask, jsonify, request
+from flask import Flask, request
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -69,6 +69,10 @@ def control_listings(subpath):
 def control_get_conversations(subpath, user_id):
     if subpath == "getAll":
         return conversation.getAllConversations(user_id)
+    elif subpath == "getOwner":
+        return conversation.getOwnerConversations(user_id)
+    elif subpath == "getCustomer":
+        return conversation.getCustomerConversations(user_id)
     else:
         return "Found no endpoint in auth"
     

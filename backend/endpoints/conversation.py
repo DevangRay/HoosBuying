@@ -22,10 +22,28 @@ def getAllConvoIds(user_id):
     # response = jsonify(result)
     # response.headers.add('Access-Control-Allow-Origin', '*')
     # return response
-
-def getAllConversations(user_id):
-    convo_arr = getAllConvoIds(user_id)
     
+def getAllOwnerConvoIds(user_id):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            cursor.execute("SELECT c.*, u.username as host_user, u.fname as host_fname, u.lname as host_lname, u.computing_id as host_cid, u2.username as cust_user, u2.fname as cust_fname, u2.lname as cust_lname, u2.computing_id as cust_cid, l.title, l.price, l.status_id , s.status_name FROM Conversation c join `User` u on c.host_id = u.uid join `User` u2 on c.customer_id =u2.uid join Listings l on c.listing_id = l.listing_id  join Status s on l.status_id = s.status_id WHERE host_id = %s;", (user_id, ))
+            result = cursor.fetchall()
+    return result
+
+def getAllCustomerConvoIds(user_id):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            cursor.execute("SELECT c.*, u.username as host_user, u.fname as host_fname, u.lname as host_lname, u.computing_id as host_cid, u2.username as cust_user, u2.fname as cust_fname, u2.lname as cust_lname, u2.computing_id as cust_cid, l.title, l.price, l.status_id , s.status_name FROM Conversation c join `User` u on c.host_id = u.uid join `User` u2 on c.customer_id =u2.uid join Listings l on c.listing_id = l.listing_id  join Status s on l.status_id = s.status_id WHERE customer_id = %s;", (user_id, ))
+            result = cursor.fetchall()
+    return result
+
+def getConversationObject(user_id, convo_arr):
     connection = connect()
     with connection:
         with connection.cursor() as cursor:
@@ -37,6 +55,21 @@ def getAllConversations(user_id):
                 
     response = jsonify(convo_arr)
     response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+def getAllConversations(user_id):
+    convo_arr = getAllConvoIds(user_id)
+    response = getConversationObject(user_id, convo_arr)
+    return response
+
+def getOwnerConversations(user_id):
+    convo_arr = getAllOwnerConvoIds(user_id)
+    response = getConversationObject(user_id, convo_arr)
+    return response
+
+def getCustomerConversations(user_id):
+    convo_arr = getAllCustomerConvoIds(user_id)
+    response = getConversationObject(user_id, convo_arr)
     return response
 
 def addNewMessage(convo_id, user_id, text):
