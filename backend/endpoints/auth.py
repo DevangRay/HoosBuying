@@ -1,13 +1,32 @@
-import pymysql
+from pathlib import Path
+import sys
+path_root = Path(__file__).parents[2]
+sys.path.append(str(path_root))
+print(sys.path)
+
 import random
 import string
 import bcrypt
-from db_users import connect
-from flask import Flask, jsonify
-from flask_cors import CORS
-from markupsafe import escape
-app = Flask(__name__)
-CORS(app)
+from backend.endpoints.connector import connect
+from flask import jsonify
+
+
+def getAllUsers():
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a sql statement
+            sql = "SELECT * FROM `User`"
+            cursor.execute(sql)
+            result = cursor.fetchall()
+
+    # connection is not autocommit by default. So you must commit to save
+    # your changes.
+    # connection.commit()
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 def checkToken(token):
     connection = connect()
@@ -31,8 +50,7 @@ def getUser(username):
     with connection:
         with connection.cursor() as cursor:
         # Create a new record
-            sql = f"SELECT * FROM `User` where username = \"{username}\""
-            cursor.execute(sql)
+            cursor.execute("SELECT * FROM `User` WHERE username = %s", (username,))
             result = cursor.fetchone()
     return result
 

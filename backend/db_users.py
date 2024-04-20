@@ -1,48 +1,27 @@
-import pymysql
+from pathlib import Path
+import sys
+path_root = Path(__file__).parents[2]
+sys.path.append(str(path_root))
+print("db_users sys_path is", sys.path)
+
 import requests
-import auth
-from flask import Flask, jsonify, request
+import endpoints.auth as auth
+import endpoints.tags as tags
+import endpoints.listings as listings
+import endpoints.conversation as conversation
+from flask import Flask, request
 from flask_cors import CORS
+
 app = Flask(__name__)
 CORS(app)
 
-
-def connect():
-    connection = pymysql.connect(
-        host="34.145.170.154", 
-        user="website", 
-        password="websitepassword", 
-        database= "HoosBuying",
-        cursorclass=pymysql.cursors.DictCursor
-    )
-    if connection:
-        return connection
-    else:
-        return "Connection Error", 404
-    
-
-
 @app.route('/getAllUsers', methods=['GET'])
-def getAllUsers():
-    connection = connect()
-    result = "GOT NOTHING PAL"
-    with connection:
-        with connection.cursor() as cursor:
-        # Create a sql statement
-            sql = "SELECT * FROM `User`"
-            cursor.execute(sql)
-            result = cursor.fetchall()
+def control_all_users():
+    return auth.getAllUsers()
 
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    # connection.commit()
-    response = jsonify(result)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
 
 @app.route('/auth/<path:subpath>', methods=['GET', 'POST'])
 def control_auth(subpath):
-
     if subpath == "checkToken":
         token = request.json['token']
         return auth.checkToken(token)
@@ -56,6 +35,54 @@ def control_auth(subpath):
         username = request.form["username"]
         password = request.form["password"]
         return auth.login(username, password)
+    else:
+        return "Found no endpoint in auth"
+    
+@app.route('/tags/', methods=['GET'])
+def control_tags():
+    return tags.getAllTags()
+
+@app.route('/listings/filter/<int:id>', methods=['GET'])
+def control_listings_filter(id):
+    return listings.filterByTag(id)
+
+@app.route('/listings/<path:subpath>', methods=['GET', 'POST'])
+def control_listings(subpath):
+    if subpath == "getAll":
+        return listings.getAllListings()
+    elif subpath == "insert":
+        description = request.form["description"]
+        status_id = request.form["status_id"]
+        delivery_id = request.form["delivery_id"]
+        owner_id = request.form["owner_id"]
+        title = request.form["title"]
+        price = request.form["price"]
+        return listings.insertListing(description, status_id, delivery_id, owner_id, title, price)
+    elif subpath == "update":
+        listing_id = request.form["listing_id"]
+        dict = request.form
+        return listings.updateListing(dict, listing_id=listing_id), 200
+    else:
+        return "Found no endpoint in auth"
+    
+@app.route('/conversations/<path:subpath>/<int:user_id>', methods=['GET', 'POST'])
+def control_get_conversations(subpath, user_id):
+    if subpath == "getAll":
+        return conversation.getAllConversations(user_id)
+    elif subpath == "getOwner":
+        return conversation.getOwnerConversations(user_id)
+    elif subpath == "getCustomer":
+        return conversation.getCustomerConversations(user_id)
+    else:
+        return "Found no endpoint in auth"
+    
+@app.route('/conversations/<path:subpath>', methods=['GET', 'POST'])
+def control_conversations(subpath):
+    if subpath == "insert":
+        conversation_id = request.form["conversation_id"]
+        user_id=request.form["user_id"]
+        message = request.form["message"]
+        return conversation.addNewMessage(conversation_id, user_id, message)
     else:
         return "Found no endpoint in auth"
 
