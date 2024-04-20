@@ -3,7 +3,9 @@
 <nav>
   <span v-if="isLoggedIn">
     <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/getAllUsers">See Users</RouterLink>
+    <RouterLink to="/search">Search</RouterLink>
+    <RouterLink to="/chats">Chat</RouterLink>
+    <RouterLink to="/account">Account</RouterLink>
     
     <a @click="logout">Logout</a>
     </span>
