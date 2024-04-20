@@ -26,17 +26,20 @@ const router = createRouter({
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/SearchView.vue')
+      component: () => import('../views/SearchView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/chat',
       name: 'chat',
-      component: () => import('../views/ChatView.vue')
+      component: () => import('../views/ChatView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/listing',
       name: 'listing',
-      component: () => import('../views/ListingView.vue')
+      component: () => import('../views/ListingView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/about',
@@ -62,7 +65,7 @@ router.beforeEach((to, from, next) => {
       next();
       return;
     }
-    next("/getAllUsers");
+    next("/login");
   } else {
     next();
   }

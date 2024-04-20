@@ -1,15 +1,11 @@
 <template>
 
 <nav>
+  <span v-if="isLoggedIn">
     <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
     <RouterLink to="/getAllUsers">See Users</RouterLink>
-    <span v-if="isLoggedIn">
-      <a @click="logout">Logout</a>
-    </span>
-    <span v-else>
-      <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link>
+    
+    <a @click="logout">Logout</a>
     </span>
 </nav>
   

@@ -7,17 +7,38 @@
             <input type="text" name="username" v-model="form.username" />
           </div>
           <div>
-            <label for="full_name">Full Name:</label>
-            <input type="text" name="full_name" v-model="form.full_name" />
+            <label for="fname">First Name:</label>
+            <input type="text" name="fname" v-model="form.fname" />
+          </div>
+          <div>
+            <label for="lname">Last Name:</label>
+            <input type="text" name="lname" v-model="form.lname" />
+          </div>
+          <div>
+            <label for="computing_id">Computing ID:</label>
+            <input type="text" name="computing_id" v-model="form.computing_id" />
+          </div>
+          <div>
+            <label for="address">Address:</label>
+            <input type="text" name="address" v-model="form.address" />
+          </div>
+          <div>
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" name="phone_number" v-model="form.phone_number" />
           </div>
           <div>
             <label for="password">Password:</label>
             <input type="password" name="password" v-model="form.password" />
           </div>
-          <button type="submit">Submit</button>
+          <div>
+            <label for="password">Re-Enter Password:</label>
+            <input type="rePassword" name="rePassword" v-model="form.rePassword" />
+          </div>
+          <button type="submit">Register</button>
         </form>
       </div>
-      <p v-if="showError" id="error">Username already exists</p>
+      <p v-if="showError" id="error">{{ errorMessage }}</p>
+      <router-link to="/login">Already a user? Log in.</router-link>
     </div>
   </template>
   
@@ -31,20 +52,34 @@
       return {
         form: {
           username: "",
-          full_name: "",
           password: "",
+          rePassword: "",
+          fname: "",
+          lname: "",
+          computing_id: "",
+          address: "",
+          phone_number: "",
         },
-        showError: false
+        showError: false,
+        errorMessage: ""
       };
     },
     methods: {
       ...mapActions(["Register"]),
       async submit() {
+        this.showError = false;
+        this.errorMessage = "";
+        if(this.form.password != this.form.rePassword){
+          this.showError = true;
+          this.errorMessage = "Passwords do not match"
+        }
         try {
           await this.Register(this.form);
           this.$router.push("/posts");
           this.showError = false
         } catch (error) {
+          console.log(error)
+          this.errorMessage = "Failed to create new user!"
           this.showError = true
         }
       },

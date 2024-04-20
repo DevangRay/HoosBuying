@@ -13,6 +13,7 @@
           <button type="submit">Submit</button>
         </form>
         <p v-if="showError" id="error">Username or Password is incorrect</p>
+        <router-link to="/register">Create New Account</router-link>
       </div>
     </div>
   </template>
@@ -55,6 +56,7 @@
   * {
     box-sizing: border-box;
   }
+  
   
   label {
     padding: 12px 12px 12px 0;

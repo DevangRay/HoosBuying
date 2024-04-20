@@ -97,3 +97,24 @@ def login(username, password):
             return response
         else:
             return "Unable to login", 401
+
+
+def register(username,password,fname,lname,computing_id,address,phone_number):
+    user = getUser(username)
+    print("auth.py user is", user)
+    if user:
+        return "Username already in use", 400
+    
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    try:
+        with connection.cursor() as cursor:
+        # Create a new record
+            cursor.execute("INSERT INTO `User`(username, password, fname, lname, computing_id, address, phone_number)VALUES(%s, %s, %s, %s, %s, %s, %s);",(username,password,fname,lname,computing_id,address,phone_number))
+            connection.commit()
+            result = cursor.fetchall()
+            print("Successfully created new account")
+            return "Successfully created new account", 200
+    except Exception as e:
+        print(e)
+        return "Problem creating new account", 500

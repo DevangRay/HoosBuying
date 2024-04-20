@@ -7,8 +7,9 @@ const state = {
     token: null,
 };
 const getters = {
-    isAuthenticated: state => !!state.user,    
+    isAuthenticated: state => !!state.token,    
     StateUser: state => state.user,
+    StateToken:state => state.token,
 };
 const actions = {
   async Register({dispatch}, form) {
@@ -19,38 +20,52 @@ const actions = {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(form.password,saltRounds)
     UserForm.append('password', hashedPassword)
-    console.log("--" + hashedPassword+"--")
-    await axios.post('register', UserForm)
+    UserForm.append('fname', form.fname)
+    UserForm.append('lname', form.lname)
+    UserForm.append('computing_id', form.computing_id)
+    UserForm.append('address', form.address)
+    UserForm.append('phone_number', form.phone_number)
+  
+    await axios.post('auth/register', UserForm)
 
-    UserForm.set('password', form.password)
+    
+    let LoginForm = new FormData()
+    LoginForm.append('username', form.username)
+    LoginForm.set('password', form.password)
     await dispatch('LogIn', UserForm)
   },
 
   async LogIn({commit}, user) {
     await axios.post("auth/login", user)
-    // ADDING WAY TO SAVE TOKEN AND USERNAME IN RESPONSE
-    .then((response) => {
-      let token = response.data.token;
-      let user_name = response.data.username;
-      console.log("user is", user_name, "token is", token);
-    })
-    // END OF BLOCK
-    await commit("setUser", user.get("username"));
+      .then((response) => {
+        let token = response.data.token;
+        let user_name = response.data.username;
+        console.log("user is", user_name, "token is", token);
+        commit("setUser", user_name);
+        commit("setToken",token);
+      })
   },
   async LogOut({ commit }) {
     let user = null;
-    commit("logout", user);
+    let token = null;
+    commit("logout", user,token);
   },
 };
+
 const mutations = {
   setUser(state, username) {
     state.user = username;
   },
+  setToken(state, token) {
+    state.token = token;
+  },
 
-  logout(state, user) {
+  logout(state, user, token) {
     state.user = user;
+    state.token = token;
   },
 };
+
 export default {
   state,
   getters,

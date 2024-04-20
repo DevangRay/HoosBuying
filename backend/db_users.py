@@ -35,6 +35,18 @@ def control_auth(subpath):
         username = request.form["username"]
         password = request.form["password"]
         return auth.login(username, password)
+
+    # Returns success or failure creating new account
+    elif subpath == "register":
+        username = request.form["username"]
+        password = request.form["password"]
+        fname = request.form["fname"]
+        lname = request.form["lname"]
+        computing_id = request.form["computing_id"]
+        address = request.form["address"]
+        phone_number = request.form["phone_number"]
+
+        return auth.register(username,password,fname,lname,computing_id,address,phone_number)
     else:
         return "Found no endpoint in auth"
     
