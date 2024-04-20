@@ -32,7 +32,7 @@
           </div>
           <div>
             <label for="password">Re-Enter Password:</label>
-            <input type="rePassword" name="rePassword" v-model="form.rePassword" />
+            <input type="password" name="rePassword" v-model="form.rePassword" />
           </div>
           <button type="submit">Register</button>
         </form>
