@@ -12,16 +12,16 @@
                     Sale Status: {{listing.status_name}}
 
                     <v-icon v-if="listing.status_id==1" size="x-large" color="success" icon="mdi-cart"></v-icon>
-                    <v-icon v-if="listing.status_id==2" size="x-large" color="warning" icon="mdi-cart"></v-icon>
-                    <v-icon v-if="listing.status_id==3" size="x-large" color="error" icon="mdi-cart"></v-icon>
+                    <v-icon v-else-if="listing.status_id==2" size="x-large" color="warning" icon="mdi-cart"></v-icon>
+                    <v-icon v-else-if="listing.status_id==3" size="x-large" color="error" icon="mdi-cart"></v-icon>
                   </v-card-item>
                   <!-- <v-icon color="success" icon="mdi-account-group"></v-icon> -->
                   <v-card-item>
                     Preferred Method of Delivery: {{listing.method_name}}
 
                     <v-icon v-if="listing.delivery_id==1" size="x-large" color="info" icon="mdi-account-group"></v-icon>
-                    <v-icon v-if="listing.delivery_id==2" size="x-large" color="info" icon="mdi-email-fast"></v-icon>
-                    <v-icon v-if="listing.delivery_id==3" size="x-large" color="info" icon="mdi-truck-delivery"></v-icon>
+                    <v-icon v-else-if="listing.delivery_id==2" size="x-large" color="info" icon="mdi-email-fast"></v-icon>
+                    <v-icon v-else-if="listing.delivery_id==3" size="x-large" color="info" icon="mdi-truck-delivery"></v-icon>
                   </v-card-item>
                 </v-card>
               </v-col>
