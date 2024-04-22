@@ -1,3 +1,4 @@
+import Login from '@/views/Login.vue';
 import axios from 'axios';
 import bcrypt from 'bcryptjs'
 
@@ -31,8 +32,8 @@ const actions = {
     
     let LoginForm = new FormData()
     LoginForm.append('username', form.username)
-    LoginForm.set('password', form.password)
-    await dispatch('LogIn', UserForm)
+    LoginForm.append('password', form.password)
+    await dispatch('LogIn', LoginForm)
   },
 
   async LogIn({commit}, user) {

@@ -1,6 +1,18 @@
 <template>
   <div class="search">
     <h1>This is a search page</h1>
+    <!-- <v-col cols="12" md="4">
+      <v-card>
+        <v-card-item>
+          <v-card-title>This is a title</v-card-title>
+
+          <v-card-subtitle>This is a card subtitle</v-card-subtitle>
+        </v-card-item>
+
+        <v-card-text>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus!
+        </v-card-text>
+      </v-card> -->
     <p v-for="listing in result" :key="listing.listing_id">{{ listing.title }}</p>
   </div>
 </template>
@@ -41,10 +53,10 @@
             axios.get(url, {headers})
 
             .then((res) => {
-                console.log("RESULT FOUND ", res);
-                console.log("DATA IS", res.data)
+                // console.log("RESULT FOUND ", res);
+                // console.log("DATA IS", res.data)
                 this.result = res.data;
-                console.log("RESULT SHOULD BE THE SAME", this.result);
+                // console.log("RESULT SHOULD BE THE SAME", this.result);
             })
           }
       }
