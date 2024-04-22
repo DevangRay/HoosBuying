@@ -9,7 +9,7 @@ const store = createStore({
   modules: {
     auth,
   },
-//   plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
 });
 
 export default store;
