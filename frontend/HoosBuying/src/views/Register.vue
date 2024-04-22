@@ -75,7 +75,7 @@
         }
         try {
           await this.Register(this.form);
-          this.$router.push("/posts");
+          this.$router.push("/");
           this.showError = false
         } catch (error) {
           console.log(error)
