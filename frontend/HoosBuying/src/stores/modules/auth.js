@@ -1,3 +1,4 @@
+import Login from '@/views/Login.vue';
 import axios from 'axios';
 import bcrypt from 'bcryptjs'
 

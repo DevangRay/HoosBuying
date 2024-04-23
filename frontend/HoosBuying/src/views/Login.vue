@@ -41,7 +41,7 @@
         User.append('password', this.form.password);
         try {
             await this.LogIn(User);
-            this.$router.push("/getAllUsers");
+            this.$router.push("/");
             this.showError = false
         } catch (error) {
           console.log("CAUGHT ERROR", error)

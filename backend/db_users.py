@@ -45,6 +45,7 @@ def control_auth(subpath):
         computing_id = request.form["computing_id"]
         address = request.form["address"]
         phone_number = request.form["phone_number"]
+        print("in auth register")
 
         return auth.register(username,password,fname,lname,computing_id,address,phone_number)
     else:
