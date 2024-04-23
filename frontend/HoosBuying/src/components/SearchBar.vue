@@ -1,4 +1,5 @@
-<template>
+<template> 
+    <p>allTags: {{ selected_Tags }}</p>
     <v-card-text class="d-flex justify-space-between">
         <v-chip-group 
         v-for="tag in tag_result" 
@@ -28,13 +29,15 @@
 </template>
 
 <script>
-    import store from '@/stores';
-import axios from 'axios'
+    import axios from 'axios'
+    import { mapState } from 'vuex';
+
     export default{
         name: 'TagsArray',
         data() {
             return {
                 tag_result: [],
+                all_clicked_tags: [],
             };
         },
         props: {
@@ -62,11 +65,13 @@ import axios from 'axios'
             log(tag_id) {
                 console.log("pressing the fucking button")
                 console.log("id is ", tag_id)
-                store.commit({
-                    type: 'addTag',
-                    amount: tag_id
-                })
+                this.$store.commit('addTag', tag_id)
             }
+        }, 
+        computed: {
+            ...mapState({
+                selected_tags: 'selected_tags'
+            })
         }
     }
 </script>
