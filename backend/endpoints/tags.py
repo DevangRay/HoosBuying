@@ -14,7 +14,7 @@ def getAllTags():
     with connection:
         with connection.cursor() as cursor:
         # Create a new record
-            sql = f"SELECT tag_name FROM Tags"
+            sql = f"SELECT * FROM Tags"
             cursor.execute(sql)
             result = cursor.fetchall()
             
