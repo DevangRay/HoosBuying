@@ -9,7 +9,7 @@ import NavBar from './components/NavBar.vue'
   <v-layout light>
   <v-app-bar :elevation="2">
     <template v-slot:prepend>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
     </template>
 
     <v-app-bar-title>HoosBuying</v-app-bar-title>
@@ -27,8 +27,8 @@ import NavBar from './components/NavBar.vue'
   </v-app-bar>
   <v-main>
  
-  <h1>HoosBuying</h1>
-  <NavBar></NavBar>
+  <!-- <h1>HoosBuying</h1> -->
+  <!-- <NavBar></NavBar> -->
       
   
   
@@ -50,14 +50,30 @@ export default {
       appTitle: 'Awesome App',
       sidebar: false,
       menuItems: [
-          { title: 'Home', path: '/home', icon: 'home' },
-          { title: 'Sign Up', path: '/signup', icon: 'face' },
-          { title: 'Sign In', path: '/signin', icon: 'lock_open' }
+          { title: 'Home', path: '/', icon: 'mdi-home' },
+          { title: 'Search', path: '/search', icon: 'mdi-card-search' },
+          { title: 'Chats', path: '/chats', icon: 'mdi-forum' },
+          { title: 'Account', path: '/account', icon: 'mdi-account-cowboy-hat-outline' },
+          { title: 'Logout', path: '/logout', icon: 'mdi-exit-run' },
      ]
     }
   },
+  name: "App",
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch("LogOut");
+      this.$router.push("/login");
+    },
+  },
 };
 </script>
+
+
 <style>
 </style>
 

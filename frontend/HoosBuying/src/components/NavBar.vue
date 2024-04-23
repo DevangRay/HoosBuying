@@ -4,7 +4,7 @@
   <span v-if="isLoggedIn">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/search">Search</RouterLink>
-    <RouterLink to="/chats">Chat</RouterLink>
+    <RouterLink to="/chats">Chats</RouterLink>
     <RouterLink to="/account">Account</RouterLink>
     
     <a @click="logout">Logout</a>
