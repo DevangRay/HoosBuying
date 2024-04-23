@@ -6,48 +6,60 @@ import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="HoosBuying" />
+  <v-layout light>
+  <v-app-bar :elevation="2">
+    <template v-slot:prepend>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+    </template>
 
-      <NavBar></NavBar>
-    </div>
-  </header>
-
-  <RouterView />
-</template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
+    <v-app-bar-title>HoosBuying</v-app-bar-title>
+    <v-spacer></v-spacer>
+      <v-app-bar-items class="hidden-xs-only">
+        <v-btn
+          flat
+          v-for="item in menuItems"
+          :key="item.title"
+          :to="item.path">
+          <v-icon left dark>{{ item.icon }}</v-icon>
+          {{ item.title }}
+        </v-btn>
+      </v-app-bar-items>
+  </v-app-bar>
+  <v-main>
+ 
+  <h1>HoosBuying</h1>
+  <NavBar></NavBar>
+      
   
-}
+  
+  
+    
+  <v-containter >
+    <RouterView />
+  </v-containter>
+  </v-main>
+</v-layout>
+</template>
+<script>
+//import HelloWorld from "./components/HelloWorld";
+
+export default {
+  name: "App",
+  data(){
+    return {
+      appTitle: 'Awesome App',
+      sidebar: false,
+      menuItems: [
+          { title: 'Home', path: '/home', icon: 'home' },
+          { title: 'Sign Up', path: '/signup', icon: 'face' },
+          { title: 'Sign In', path: '/signin', icon: 'lock_open' }
+     ]
+    }
+  },
+};
+</script>
+<style>
 </style>
+
 
 
