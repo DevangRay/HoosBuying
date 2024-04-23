@@ -1,7 +1,4 @@
 <template>
-    <div v-for="tag in tag_result" :key="tag.tag_id">
-        <p>{{ tag.tag_name }}</p>
-    </div>
     <v-card-text class="d-flex justify-space-between">
         <v-chip-group 
         v-for="tag in tag_result" 

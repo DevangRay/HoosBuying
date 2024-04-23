@@ -4,6 +4,9 @@
 
   export default{
       name: 'ListingsArray',
+      components: {
+        SearchBar
+    },
       data() {
           return {
               result: [],
@@ -36,7 +39,7 @@
 </script>
 
 <template>
-          <SearchBar></SearchBar>
+          Narrow Search: <SearchBar />
           <div>
             <div v-for="listing in result" :key="listing.listing_id">
               <v-col>
