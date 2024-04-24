@@ -1,5 +1,5 @@
 <script>
-  import SearchBar from '../components/SearchBar.vue'
+  // import SearchBar from '../components/SearchBar.vue'
   import axios from 'axios'
   import store from '@/stores';
 
@@ -63,6 +63,9 @@
                     this.all_clicked_tags = res;
                 })
             },
+        shouldListingShow(tag_id) {
+            return this.all_clicked_tags.length === 0 || this.all_clicked_tags.includes(tag_id);
+        }
     }
   }
 </script>
@@ -71,39 +74,34 @@
           <!-- Narrow Search: <SearchBar /> -->
           <div>
             <div v-for="selected_tag in all_clicked_tags" :key="selected_tag[0]">
-        <p>{{ selected_tag }}</p>
-    </div>
-            <v-card-text class="d-flex justify-space-between">
-        <v-chip-group 
-        v-for="tag in tag_result" 
-        :key="tag.tag_id"
-        column
-        multiple
-        selected-class="text-primary"
-        >
-            <!-- <v-chip 
-            v-if="tag.tag_id == 1" 
-            variant="outlined"
-            filter
-            @click="log(tag.tag_id)"
-            >
-                {{ tag.tag_name }}
-            </v-chip> -->
+              <p>{{ selected_tag }}</p>
+            </div>
 
-            <v-chip 
-            variant="elevated"
-            filter
-            @click="change_selected_tag(tag.tag_id)"
-            >
-                {{ tag.tag_name }}
-            </v-chip>
-        </v-chip-group>
-    </v-card-text>
+            <v-card-text class="d-flex justify-space-between">
+              <v-chip-group 
+                v-for="tag in tag_result" 
+                :key="tag.tag_id"
+                column
+                multiple
+                selected-class="text-primary"
+              >
+                  <v-chip 
+                  variant="elevated"
+                  filter
+                  @click="change_selected_tag(tag.tag_id)"
+                  >
+                      {{ tag.tag_name }}
+                  </v-chip>
+                </v-chip-group>
+             </v-card-text>
           </div>
+
+          <br/>
+          
           <div>
             <div v-for="listing in listing_result" :key="listing.listing_id">
               <v-col>
-                <v-card>
+                <v-card v-show="shouldListingShow(listing.tag_id)">
                   <v-card-item>
                     <v-card-title>{{listing.title}}</v-card-title>
                     <v-card-subtitle>${{ listing.price }}</v-card-subtitle>
