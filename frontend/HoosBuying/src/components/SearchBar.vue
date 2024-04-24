@@ -1,5 +1,7 @@
 <template> 
-    <p>allTags: {{ selected_Tags }}</p>
+    <div v-for="selected_tag in all_clicked_tags" :key="selected_tag[0]">
+        <p>{{ selected_tag }}</p>
+    </div>
     <v-card-text class="d-flex justify-space-between">
         <v-chip-group 
         v-for="tag in tag_result" 
@@ -20,7 +22,7 @@
             <v-chip 
             variant="elevated"
             filter
-            @click="log(tag.tag_id)"
+            @click="change_selected_tag(tag.tag_id)"
             >
                 {{ tag.tag_name }}
             </v-chip>
@@ -29,7 +31,8 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import store from '@/stores';
+import axios from 'axios'
     import { mapState } from 'vuex';
 
     export default{
@@ -45,6 +48,7 @@
         },
         mounted() {
             this.getTags();
+            this.get_selected_tags();
         },
         methods: {
         getTags() {
@@ -62,11 +66,21 @@
                 // console.log("RESULT SHOULD BE THE SAME", this.result);
                 })
             },
-            log(tag_id) {
-                console.log("pressing the fucking button")
+            change_selected_tag(tag_id) {
                 console.log("id is ", tag_id)
-                this.$store.commit('changeTags', tag_id)
-            }
+                // this.$store.commit('changeTags', tag_id)
+                store.dispatch('callChangeTags', tag_id)
+                this.get_selected_tags()
+            },
+            get_selected_tags() {
+                console.log("in get_selected_tags")
+                
+                store.dispatch('callTagGetter')
+                .then((res) => {
+                    console.log("results are", res);
+                    this.all_clicked_tags = res;
+                })
+            },
         }, 
         computed: {
             ...mapState({
