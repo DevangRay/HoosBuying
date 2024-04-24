@@ -13,8 +13,11 @@ def getAllListings():
     with connection:
         with connection.cursor() as cursor:
         # Create a new record
-            sql = """select l.*, dm.method_name, s.status_name, u.username, u.fname , u.lname , u.computing_id  
-from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  join Status s on l.status_id = s.status_id join `User` u on l.owner_id = u.uid"""
+            sql = """select l.*, dm.method_name, s.status_name, u.username, u.fname , u.lname , u.computing_id, tl.tag_id 
+            from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  
+                            join Status s on l.status_id = s.status_id 
+                            join `User` u on l.owner_id = u.uid 
+                            join TagListing tl on l.listing_id = tl.listing_id """
             cursor.execute(sql)
             result = cursor.fetchall()
             
@@ -22,13 +25,13 @@ from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  join S
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-def insertListing(description, status_id, delivery_id, owner_id, title, price):
+def insertListing(description, status_id, delivery_id, owner_id, title, price, tag_id=8):
     connection = connect()
     result = "GOT NOTHING PAL"
     with connection:
         with connection.cursor() as cursor:
         # Create a new record
-            cursor.callproc('listing_insert', [description, status_id, delivery_id, owner_id, title, float(price),])
+            cursor.callproc('listing_insert', [description, status_id, delivery_id, owner_id, title, float(price), tag_id])
             connection.commit()
             result = cursor.fetchall()
             

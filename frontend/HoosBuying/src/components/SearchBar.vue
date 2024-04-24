@@ -65,7 +65,7 @@
             log(tag_id) {
                 console.log("pressing the fucking button")
                 console.log("id is ", tag_id)
-                this.$store.commit('addTag', tag_id)
+                this.$store.commit('changeTags', tag_id)
             }
         }, 
         computed: {
