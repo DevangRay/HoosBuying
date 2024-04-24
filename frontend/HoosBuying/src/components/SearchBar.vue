@@ -48,7 +48,6 @@ import axios from 'axios'
         },
         mounted() {
             this.getTags();
-            this.get_selected_tags();
         },
         methods: {
         getTags() {
@@ -61,31 +60,21 @@ import axios from 'axios'
 
             .then((res) => {
                 // console.log("RESULT FOUND ", res);
-                console.log("DATA IS", res.data)
+                console.log("TAG DATA IS", res.data)
                 this.tag_result = res.data;
                 // console.log("RESULT SHOULD BE THE SAME", this.result);
                 })
             },
-            change_selected_tag(tag_id) {
-                console.log("id is ", tag_id)
-                // this.$store.commit('changeTags', tag_id)
+        change_selected_tag(tag_id) {
                 store.dispatch('callChangeTags', tag_id)
                 this.get_selected_tags()
             },
-            get_selected_tags() {
-                console.log("in get_selected_tags")
-                
+        get_selected_tags() {            
                 store.dispatch('callTagGetter')
                 .then((res) => {
-                    console.log("results are", res);
                     this.all_clicked_tags = res;
                 })
             },
-        }, 
-        computed: {
-            ...mapState({
-                selected_tags: 'selected_tags'
-            })
         }
     }
 </script>
