@@ -55,6 +55,10 @@ def control_auth(subpath):
 def control_tags():
     return tags.getAllTags()
 
+@app.route('/listings/get/<int:listing_id>', methods=['GET'])
+def control_get_one_listing(listing_id):
+    return listings.getOneListing(listing_id)
+
 @app.route('/listings/filter/<int:id>', methods=['GET'])
 def control_listings_filter(id):
     return listings.filterByTags(id)

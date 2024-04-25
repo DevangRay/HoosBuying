@@ -42,9 +42,10 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/listing',
+      path: '/listing/:id',
       name: 'listing',
       component: () => import('../views/ListingView.vue'),
+      props: true,
       meta: { requiresAuth: true },
     },
     {
