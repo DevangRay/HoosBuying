@@ -21,6 +21,7 @@
       mounted() {
           this.getListings();
           this.getTags();
+          this.$store.commit('clearTags');
       },
       methods: {
         getListings() {
@@ -91,6 +92,10 @@
         },
         shouldListingShow(tag_id) {
             return this.all_clicked_tags.length === 0 || this.all_clicked_tags.includes(tag_id);
+        },
+        clearTagArray() {
+          console.log("I AM CLEARING ARRAY");
+          this.all_clicked_tags = [];
         }
     }
   }
@@ -99,9 +104,9 @@
 <template>
           <!-- Narrow Search: <SearchBar /> -->
           <div>
-            <div v-for="selected_tag in all_clicked_tags" :key="selected_tag[0]">
+            <!-- <div v-for="selected_tag in all_clicked_tags" :key="selected_tag[0]">
               <p>{{ selected_tag }}</p>
-            </div>
+            </div> -->
 
             <v-card-text class="d-flex justify-space-between">
               <v-chip-group 
