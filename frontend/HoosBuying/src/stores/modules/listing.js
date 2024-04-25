@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 
 const state = {
   // selected_listing : null,
@@ -19,10 +21,13 @@ const actions = {
       
       axios.get(url, {headers})
       .then((result) => {
-        console.log("SINGULAR LISTING DATA IS", result.data)
-        state.commit('changeSelectedListing', result.data)
+        console.log("SINGULAR LISTING DATA IS", result.data[0])
+        state.commit('changeSelectedListing', result.data[0])
       })
   },
+  callListingGetter({getters}) {
+    return getters.get_listing_info
+  }
 };
 
 const mutations = {

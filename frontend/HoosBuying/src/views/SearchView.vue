@@ -2,7 +2,7 @@
   // import SearchBar from '../components/SearchBar.vue'
   import axios from 'axios'
   import store from '@/stores';
-import router from '@/router';
+  import router from '@/router';
 
   export default{
       name: 'ListingsArray',
