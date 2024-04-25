@@ -102,7 +102,7 @@
 </script>
 
 <template>
-          <!-- Narrow Search: <SearchBar /> -->
+          Narrow Search:
           <div>
             <!-- <div v-for="selected_tag in all_clicked_tags" :key="selected_tag[0]">
               <p>{{ selected_tag }}</p>
@@ -148,7 +148,7 @@
                   <!-- <v-icon color="success" icon="mdi-account-group"></v-icon> -->
                   <v-card-item>
                     Preferred Method of Delivery: {{listing.method_name}}
-                    Tag: {{ listing.tag_id }}
+                    <!-- Tag: {{ listing.tag_id }} -->
                     <v-icon v-if="listing.delivery_id==1" size="x-large" color="info" icon="mdi-account-group"></v-icon>
                     <v-icon v-else-if="listing.delivery_id==2" size="x-large" color="info" icon="mdi-email-fast"></v-icon>
                     <v-icon v-else-if="listing.delivery_id==3" size="x-large" color="info" icon="mdi-truck-delivery"></v-icon>
@@ -156,6 +156,9 @@
                 </v-card>
               </v-col>
             </div>
+            <div v-if="this.listing_result.length === 0">
+                  <h1>No results yet!</h1>
+              </div>
           </div>
 </template>
 
