@@ -42,8 +42,7 @@ defineProps({
             console.log("ListingVue result is", result)
             this.singleListing = result;
           })
-          
-        }
+      }
     }
   }
 </script>
