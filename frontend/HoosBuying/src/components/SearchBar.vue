@@ -67,13 +67,17 @@ import axios from 'axios'
             },
         change_selected_tag(tag_id) {
                 store.dispatch('callChangeTags', tag_id)
-                this.get_selected_tags()
+                .then(() => {
+                    console.log("about to refresh selected tags now");
+                    this.get_selected_tags();
+                })
             },
         get_selected_tags() {            
                 store.dispatch('callTagGetter')
                 .then((res) => {
                     this.all_clicked_tags = res;
                 })
+                .then( () => console.log("all_clicked_tags is", res))
             },
         }
     }

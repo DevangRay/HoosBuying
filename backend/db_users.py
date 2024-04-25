@@ -57,7 +57,16 @@ def control_tags():
 
 @app.route('/listings/filter/<int:id>', methods=['GET'])
 def control_listings_filter(id):
-    return listings.filterByTag(id)
+    return listings.filterByTags(id)
+
+@app.route('/listings/filter', methods=['POST'])
+def post_control_listings_filter():
+    # print("REQUEST.JSON IS FOR FILTER LISTINGS", request.json, request, request.form)
+    if (request.json) :
+        tag_array = request.json
+        return listings.filterByTags(tag_array)    
+    else:
+        return listings.getAllListings()
 
 @app.route('/listings/<path:subpath>', methods=['GET', 'POST'])
 def control_listings(subpath):
@@ -107,6 +116,17 @@ def testPostToken():
     print("sending to control function")
     res = requests.post("http://127.0.0.1:5000/auth/checkToken", json=dictToSend)
     print(res)
+    if res.status_code == 200 or res.status_code == 401:
+        return res.text, res.status_code
+    else:
+        return "Uncontrolled error, likely a bug", 404
+    
+@app.route('/testListingFilter', methods=['GET'])
+def testListingFilter():
+    array = [1, 8]
+    print("sending to control function")
+    res = requests.post("http://127.0.0.1:5000/listings/filter", json=array)
+    print("testListingFilter result is", res)
     if res.status_code == 200 or res.status_code == 401:
         return res.text, res.status_code
     else:

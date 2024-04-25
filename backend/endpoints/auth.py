@@ -24,6 +24,7 @@ def getAllUsers():
     # connection is not autocommit by default. So you must commit to save
     # your changes.
     # connection.commit()
+    print("getAllUsers result is", result)
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

@@ -55,14 +55,40 @@
             },
         change_selected_tag(tag_id) {
                 store.dispatch('callChangeTags', tag_id)
-                this.get_selected_tags()
+                .then(() => {
+                  this.get_selected_tags();
+                })
+                .finally(() => {
+                  this.getFilteredListings();
+                });
             },
         get_selected_tags() {            
                 store.dispatch('callTagGetter')
                 .then((res) => {
                     this.all_clicked_tags = res;
                 })
+                return
             },
+        getFilteredListings() {
+          // if (this.all_clicked_tags.length === 0) {
+          //   return
+          // }
+          // else{
+          //   axios.post("listings/filter", this.all_clicked_tags)
+          // .then((res) => {
+          //   console.log("FILTERED LISTING DATA IS", res.data);
+          //   this.listing_result = res.data;
+          // })
+          // }
+          this.get_selected_tags()
+          console.log("about to send to listings/filter")
+          console.log(this.all_clicked_tags)
+          axios.post("listings/filter", this.all_clicked_tags)
+          .then((res) => {
+            console.log("FILTERED LISTING DATA IS", res.data);
+            this.listing_result = res.data;
+          })
+        },
         shouldListingShow(tag_id) {
             return this.all_clicked_tags.length === 0 || this.all_clicked_tags.includes(tag_id);
         }
@@ -101,7 +127,7 @@
           <div>
             <div v-for="listing in listing_result" :key="listing.listing_id">
               <v-col>
-                <v-card v-show="shouldListingShow(listing.tag_id)">
+                <v-card>
                   <v-card-item>
                     <v-card-title>{{listing.title}}</v-card-title>
                     <v-card-subtitle>${{ listing.price }}</v-card-subtitle>

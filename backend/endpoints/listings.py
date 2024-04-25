@@ -67,15 +67,36 @@ def updateListing(column_dict, listing_id):
     response = "listing is " + str(listing_id)
     return response
 
-def filterByTag(tag_id):
+def filterByTags(tag_array):
+    query = ""
+    if len(tag_array) > 1:
+        ids = tuple(tag_array)  
+        query = """
+            select l.*, dm.method_name, s.status_name, u.username, u.fname , u.lname , u.computing_id, tl.tag_id 
+            from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  
+                join Status s on l.status_id = s.status_id 
+                join `User` u on l.owner_id = u.uid 
+                join TagListing tl on l.listing_id = tl.listing_id
+            where tl.tag_id in {}""".format(ids)
+    else:
+        ids = tag_array[0]
+        query = """
+                select l.*, dm.method_name, s.status_name, u.username, u.fname , u.lname , u.computing_id, tl.tag_id 
+                from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  
+                    join Status s on l.status_id = s.status_id 
+                    join `User` u on l.owner_id = u.uid 
+                    join TagListing tl on l.listing_id = tl.listing_id
+                where tl.tag_id ={}""".format(ids)
+    print("filterByTags post query is", query)
     connection = connect()
     result = "GOT NOTHING PAL"
     with connection:
         with connection.cursor() as cursor:
-        # Create a new record
-            cursor.execute("select l.*, dm.method_name, s.status_name, u.username, u.fname , u.lname , u.computing_id from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  join Status s on l.status_id = s.status_id join `User` u on l.owner_id = u.uid where l.listing_id IN (select listing_id from TagListing tl where tl.tag_id = %s)", (tag_id,))
+        # Get all Listings by Tuple
+            cursor.execute(query)
             result = cursor.fetchall()
             
+    print("result is", result)
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
