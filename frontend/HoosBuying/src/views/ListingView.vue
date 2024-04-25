@@ -37,13 +37,19 @@ defineProps({
       },
       methods: {
         getSingleListing(listing_id) {
+          // store.dispatch('getListing', listing_id)
+          // .then(() => {
+          //   store.dispatch('callListingGetter')
+          //   .then((result) => {
+          //     this.singleListing = result;
+          //   })
+          // })
           store.dispatch('getListing', listing_id)
-          .then(() => {
-            store.dispatch('callListingGetter')
-            .then((result) => {
-              this.singleListing = result;
-            })
+          .then((result) => {
+            console.log("ListingVue result is", result)
+            this.singleListing = result;
           })
+          
         }
     }
   }

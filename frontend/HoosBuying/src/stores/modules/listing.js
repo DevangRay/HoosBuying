@@ -11,7 +11,7 @@ const getters = {
   }
 };
 const actions = {
-  async getListing(state, listing_id) {
+  getListing(state, listing_id) {
       const headers = {
         "Access-Control-Allow-Origin":"*",
         "Content-Type": "application/jsonp"
@@ -19,11 +19,15 @@ const actions = {
   
       const url = "http://127.0.0.1:5000/listings/get/" + listing_id
       
-      axios.get(url, {headers})
-      .then((result) => {
-        console.log("SINGULAR LISTING DATA IS", result.data[0])
-        state.commit('changeSelectedListing', result.data[0])
-      })
+      return axios.get(url, {headers})
+      .then(res=> res.data[0])
+      .catch(err => console.error("getListing error", err))
+      // .then((result) => {
+      //   console.log("SINGULAR LISTING DATA IS", result.data[0])
+      //   // state.commit('changeSelectedListing', result.data[0])
+      //   state.listing_info = result.data[0]
+      // })
+      
   },
   callListingGetter({getters}) {
     return getters.get_listing_info
