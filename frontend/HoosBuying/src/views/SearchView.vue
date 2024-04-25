@@ -108,10 +108,6 @@
 <template>
           Narrow Search:
           <div>
-            <!-- <div v-for="selected_tag in all_clicked_tags" :key="selected_tag[0]">
-              <p>{{ selected_tag }}</p>
-            </div> -->
-
             <v-card-text class="d-flex justify-space-between">
               <v-chip-group 
                 v-for="tag in tag_result" 

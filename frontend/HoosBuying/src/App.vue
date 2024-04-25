@@ -34,9 +34,9 @@ import NavBar from './components/NavBar.vue'
   
   
     
-  <v-containter >
+  <v-container >
     <RouterView />
-  </v-containter>
+  </v-container>
   </v-main>
 </v-layout>
 </template>
