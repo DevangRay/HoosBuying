@@ -10,6 +10,7 @@
   >
     <v-btn @click= deleteImage(i)>Delete Me {{ i }}</v-btn>
     <v-btn @click= uploadImage(i)>UPLOAD {{ i }}</v-btn>
+    <!-- <v-text-field></v-text-field > -->
 </v-carousel-item>
 
 </v-carousel>
