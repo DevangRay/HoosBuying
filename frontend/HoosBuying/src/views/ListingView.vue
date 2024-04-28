@@ -4,7 +4,7 @@
     <!-- {{ $route.params.id }} | {{ id }} | {{ this.singleListing }} -->
     <!-- {{this.singleListing}} -->
     <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
-      <v-container>
+      <v-container fluid>
       <v-row class="mx-auto px-16 pt-16">
         <v-col>
           <v-row>
@@ -29,14 +29,29 @@
               <v-icon v-else-if="singleListing.status_id==2" size="x-large" color="warning" icon="mdi-cart"></v-icon>
               <v-icon v-else-if="singleListing.status_id==3" size="x-large" color="error" icon="mdi-cart"></v-icon>
           </v-row>
-          <v-row class="mx-auto mb-16 pb-16">
+          <v-row class="mx-auto pb-16">
               Preferred Delivery Method: {{ this.singleListing.method_name }}
               <v-icon v-if="singleListing.delivery_id==1" size="x-large" color="info" icon="mdi-account-group"></v-icon>
               <v-icon v-else-if="singleListing.delivery_id==2" size="x-large" color="info" icon="mdi-email-fast"></v-icon>
               <v-icon v-else-if="singleListing.delivery_id==3" size="x-large" color="info" icon="mdi-truck-delivery"></v-icon>
           </v-row>
-          <v-row class="mx-auto">
-              CHAT INFO HERE
+          <v-row>
+            <v-form @submit.prevent="submit">
+                <v-textarea
+                clearable
+                label="Start a conversation!"
+                variant="solo-filled"
+                v-model="placeholder"
+                bg-color="grey-lighten-2"
+                :rules="rules"
+                counter
+                no-resize
+              ></v-textarea>
+              <v-btn
+              type="submit"> 
+                Send
+              </v-btn>
+            </v-form>
           </v-row>
         </v-col>
       </v-row>
@@ -55,7 +70,9 @@
     // },
       data() {
           return {
-              singleListing : {}
+              rules: [v => v.length <= 256|| "Max 256 chracters", v => v.length >0|| "Can't send an empty message"],
+              singleListing : {},
+              placeholder: null
           };
       },
       props: {
@@ -70,7 +87,18 @@
           .then((result) => {
             console.log("ListingVue result is", result)
             this.singleListing = result;
+            this.placeholder = "Hello, I am interested in " + String(result.title)
           })
+      },
+      async submit(event) {
+        const results = await event;
+        console.log("I got", results.valid, " value is", this.placeholder)
+
+        if (results.valid) {
+          // SEND MESSAGE HERE
+          // MESSAGE IS IN this.placeholder variable
+        }
+        
       }
     }
   }
