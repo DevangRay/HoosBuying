@@ -9,6 +9,8 @@
     cover
   >
     <v-btn @click= deleteImage(i)>Delete Me {{ i }}</v-btn>
+    <v-btn @click= uploadImage(i)>UPLOAD {{ i }}</v-btn>
+    <!-- <v-text-field></v-text-field > -->
 </v-carousel-item>
 
 </v-carousel>
@@ -24,6 +26,10 @@
 </template>
 
 <script>
+
+import axios from 'axios'; 
+
+
 export default {
   name: "ImgUpload",
   components: {},
@@ -53,6 +59,15 @@ export default {
       deleteImage(i){
         this.images.splice(i,1);
         this.imageUrls.splice(i,1)
+      },
+
+
+
+      async uploadImage(i){
+        this.images[i];
+        let imgForm = new FormData()
+        imgForm.append('file',this.images[i])
+        await axios.post('images/upload', imgForm)
       }
     },
 };
