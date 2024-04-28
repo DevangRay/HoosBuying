@@ -16,7 +16,7 @@
           </v-row>
 
           <v-row class="mx-auto pt-5">
-              IMAGE INFO GOES HERE
+              <ImgListing v-if = this.singleListing.listing_id ref = "imgs" :listing_id=this.singleListing.listing_id />
           </v-row>
         </v-col>
 
@@ -63,12 +63,14 @@
 
 <script>
   import store from '@/stores';
+  import ImgListing from '../components/ImgListing.vue'
+
 
   export default{
       name: 'SingleListing',
-    //   components: {
-    //     SearchBar
-    // },
+      components: {
+        ImgListing
+    },
       data() {
           return {
               rules: [v => v.length <= 256|| "Max 256 chracters", v => v.length >0|| "Can't send an empty message"],
