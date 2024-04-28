@@ -82,10 +82,11 @@ def control_listings(subpath):
         description = request.form["description"]
         status_id = request.form["status_id"]
         delivery_id = request.form["delivery_id"]
-        owner_id = request.form["owner_id"]
+        owner_uname = request.form["owner_uname"]
         title = request.form["title"]
         price = request.form["price"]
-        return listings.insertListing(description, status_id, delivery_id, owner_id, title, price)
+        tag_id = request.form["tag_id"]
+        return listings.insertListing(description, status_id, delivery_id, owner_uname, title, price, tag_id)
     elif subpath == "update":
         listing_id = request.form["listing_id"]
         dict = request.form
