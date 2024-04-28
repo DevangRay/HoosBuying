@@ -40,7 +40,7 @@ def checkToken(token):
             result = cursor.fetchall()
         
     if not result:
-        return "Error: No Token Found", 401
+        return "Error: No Token Found", 200
     else:
         return "Success, Token Found", 200
     

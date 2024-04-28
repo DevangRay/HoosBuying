@@ -22,10 +22,10 @@ def control_all_users():
     return auth.getAllUsers()
 
 
-@app.route('/auth/<path:subpath>', methods=['GET', 'POST'])
+@app.route('/auth/<path:subpath>', methods=['POST'])
 def control_auth(subpath):
     if subpath == "checkToken":
-        token = request.json['token']
+        token = request.form['token']
         return auth.checkToken(token)
     
     # returns a dictionary with 'token' and 'username' keys
