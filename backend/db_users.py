@@ -103,7 +103,10 @@ def control_get_conversations(subpath, user_id):
         return conversation.getCustomerConversations(user_id)
     else:
         return "Found no endpoint in auth"
-    
+@app.route('/conversations/<int:convo_id>', methods=['GET', 'POST'])
+def control_get_convo_by_ids(convo_id):
+    return conversation.getConversationById(convo_id)
+
 @app.route('/conversations/<path:subpath>', methods=['GET', 'POST'])
 def control_conversations(subpath):
     if subpath == "insert":
