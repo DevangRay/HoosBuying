@@ -42,6 +42,13 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/chats/:id',
+      name: 'chat',
+      component: () => import('../views/ConversationView.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/listing/:id',
       name: 'listing',
       component: () => import('../views/ListingView.vue'),

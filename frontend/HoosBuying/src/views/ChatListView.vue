@@ -100,7 +100,7 @@ export default {
         })
     },
     goToConversation(convo_id) {
-      this.$router.push("/listing/" + listing_id);
+      this.$router.push("/chats/" + convo_id);
     },
   }
 }
