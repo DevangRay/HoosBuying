@@ -25,6 +25,24 @@ def getAllListings():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+def getOneListing(listing_id):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Get one listing based on listing_id
+            cursor.execute("""select l.*, dm.method_name, s.status_name, u.username, u.fname , u.lname , u.computing_id, tl.tag_id 
+            from Listings l join DeliveryMethod dm on l.delivery_id = dm.delivery_id  
+                            join Status s on l.status_id = s.status_id 
+                            join `User` u on l.owner_id = u.uid 
+                            join TagListing tl on l.listing_id = tl.listing_id
+            where l.listing_id = %s;""", (listing_id))
+            result = cursor.fetchall()
+            
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 def insertListing(description, status_id, delivery_id, owner_id, title, price, tag_id=8):
     connection = connect()
     result = "GOT NOTHING PAL"

@@ -2,6 +2,7 @@
   // import SearchBar from '../components/SearchBar.vue'
   import axios from 'axios'
   import store from '@/stores';
+  import router from '@/router';
 
   export default{
       name: 'ListingsArray',
@@ -96,7 +97,10 @@
         clearTagArray() {
           console.log("I AM CLEARING ARRAY");
           this.all_clicked_tags = [];
-        }
+        },
+        goToListing(listing_id) {
+          this.$router.push("/listing/"+listing_id);
+        },
     }
   }
 </script>
@@ -104,10 +108,6 @@
 <template>
           Narrow Search:
           <div>
-            <!-- <div v-for="selected_tag in all_clicked_tags" :key="selected_tag[0]">
-              <p>{{ selected_tag }}</p>
-            </div> -->
-
             <v-card-text class="d-flex justify-space-between">
               <v-chip-group 
                 v-for="tag in tag_result" 
@@ -132,9 +132,11 @@
           <div>
             <div v-for="listing in listing_result" :key="listing.listing_id">
               <v-col>
-                <v-card>
+                <v-card
+                @click="goToListing(listing.listing_id)" 
+                >
                   <v-card-item>
-                    <v-card-title>{{listing.title}}</v-card-title>
+                    <v-card-title>{{listing.title}} | {{ listing.listing_id }}</v-card-title>
                     <v-card-subtitle>${{ listing.price }}</v-card-subtitle>
                   </v-card-item>
 
