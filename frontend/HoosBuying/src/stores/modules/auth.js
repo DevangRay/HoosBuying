@@ -11,6 +11,9 @@ const getters = {
     isAuthenticated: state => !!state.token,    
     StateUser: state => state.user,
     StateToken:state => state.token,
+    get_user(state) {
+      return state.user
+  },
 };
 const actions = {
   async Register({dispatch}, form) {
@@ -39,6 +42,7 @@ const actions = {
   async LogIn({commit}, user) {
     await axios.post("auth/login", user)
       .then((response) => {
+        console.log("response is", response.data)
         let token = response.data.token;
         let user_name = response.data.username;
         console.log("user is", user_name, "token is", token);
@@ -50,6 +54,12 @@ const actions = {
     let user = null;
     let token = null;
     commit("logout", user,token);
+  },
+  async callGetUser({getters}) {
+    console.log("returning", getters.get_user)
+    let user_name = null
+    user_name = await getters.get_user;
+    return getters.get_user
   },
 };
 

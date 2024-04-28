@@ -3,6 +3,7 @@
     <!-- <h1>This is a listing page</h1> -->
     <!-- {{ $route.params.id }} | {{ id }} | {{ this.singleListing }} -->
     <!-- {{this.singleListing}} -->
+    USER ID: {{ this.user_name }}
     <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
       <v-container fluid>
       <v-row class="mx-auto px-16 pt-16">
@@ -72,6 +73,7 @@
           return {
               rules: [v => v.length <= 256|| "Max 256 chracters", v => v.length >0|| "Can't send an empty message"],
               singleListing : {},
+              user_name: null,
               placeholder: null
           };
       },
@@ -87,6 +89,8 @@
           .then((result) => {
             console.log("ListingVue result is", result)
             this.singleListing = result;
+            store.dispatch('callGetUser')
+            .then((res) => this.user_name = res)
             this.placeholder = "Hello, I am interested in " + String(result.title)
           })
       },
