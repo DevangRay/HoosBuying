@@ -44,9 +44,9 @@ const actions = {
       .then((response) => {
         console.log("response is", response.data)
         let token = response.data.token;
-        let user_name = response.data.username;
-        console.log("user is", user_name, "token is", token);
-        commit("setUser", user_name);
+        let user_id = response.data.u_id;
+        console.log("user is", user_id, "token is", token);
+        commit("setUser", user_id);
         commit("setToken",token);
       })
   },

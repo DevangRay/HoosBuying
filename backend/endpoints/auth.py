@@ -89,7 +89,7 @@ def login(username, password):
         
         if result:
             response = {
-                "username" : username,
+                "u_id" : user['uid'],
                 "token" : random_string
 
             }
