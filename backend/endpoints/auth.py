@@ -64,6 +64,19 @@ def getUserProfile(username):
             cursor.execute("SELECT username, fname, lname, computing_id, address, phone_number FROM `User` u WHERE username = %s", (username,))
             result = cursor.fetchone()
     return result
+
+
+def updateUser(fname, lname, computing_id, phone_number, address):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+            # Create a new record
+            cursor.execute("UPDATE `User` SET phone_number = %s, address = %s where computing_id = %s;", (phone_number, address, computing_id,))
+            connection.commit()
+            result = cursor.fetchone()
+    print("UPDATE USER RESULT IS", result)
+    return fname, 200
     
 
 def create_random_token(length):

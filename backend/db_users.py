@@ -136,6 +136,15 @@ def control_single_user(subpath):
          username = request.form["username"]
          print("youre in the right place", username)
          return auth.getUserProfile(username)
+     elif subpath == "update":
+         print("request is", request.form)
+         fname = request.form["fname"]
+         lname = request.form["lname"]
+         computing_id = request.form["computing_id"]
+         phone_number = request.form["phone_number"]
+         address = request.form["address"]
+         
+         return auth.updateUser(fname, lname, computing_id, phone_number, address)
      
      
      
