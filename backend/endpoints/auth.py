@@ -55,6 +55,16 @@ def getUser(username):
             result = cursor.fetchone()
     return result
 
+def getUserProfile(username):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+            # Create a new record
+            cursor.execute("SELECT username, fname, lname, computing_id, address, phone_number FROM `User` u WHERE username = %s", (username,))
+            result = cursor.fetchone()
+    return result
+    
 
 def create_random_token(length):
     letters = string.ascii_lowercase

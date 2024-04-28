@@ -128,6 +128,15 @@ def control_get_image(img_path):
 @app.route('/images/upload', methods=['POST'])
 def control_image_post():
      return images.uploadImage(request)
+ 
+@app.route('/user/<path:subpath>', methods=['POST'])
+def control_single_user(subpath):
+     if subpath == "getUserInfo":
+         print("request is", request.form)
+         username = request.form["username"]
+         print("youre in the right place", username)
+         return auth.getUserProfile(username)
+     
      
      
 # TEST FUNCTION ONLY
