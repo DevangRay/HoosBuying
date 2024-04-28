@@ -9,8 +9,10 @@ import endpoints.auth as auth
 import endpoints.tags as tags
 import endpoints.listings as listings
 import endpoints.conversation as conversation
+import endpoints.images as images
 from flask import Flask, request
 from flask_cors import CORS
+from fileinput import filename
 
 app = Flask(__name__)
 CORS(app)
@@ -109,42 +111,56 @@ def control_conversations(subpath):
         return "Found no endpoint in auth"
 
 
+
+@app.route('/images/<int:listing_id>', methods=['GET'])
+def control_get_images_by_listing(listing_id):
+    return images.getImagesByListing(listing_id)
+
+@app.route('/images/id/<int:img_id>', methods=['GET'])
+def control_get_image(img_id):
+    return images.getImage(img_id)
+
+@app.route('/images/upload', methods=['POST'])
+def control_image_post():
+     return images.uploadImage(request)
+     
+     
 # TEST FUNCTION ONLY
-@app.route('/testPostToken', methods=['GET'])
-def testPostToken():
-    dictToSend = {"token": "good"}
-    print("sending to control function")
-    res = requests.post("http://127.0.0.1:5000/auth/checkToken", json=dictToSend)
-    print(res)
-    if res.status_code == 200 or res.status_code == 401:
-        return res.text, res.status_code
-    else:
-        return "Uncontrolled error, likely a bug", 404
+# @app.route('/testPostToken', methods=['GET'])
+# def testPostToken():
+#     dictToSend = {"token": "good"}
+#     print("sending to control function")
+#     res = requests.post("http://127.0.0.1:5000/auth/checkToken", json=dictToSend)
+#     print(res)
+#     if res.status_code == 200 or res.status_code == 401:
+#         return res.text, res.status_code
+#     else:
+#         return "Uncontrolled error, likely a bug", 404
     
-@app.route('/testListingFilter', methods=['GET'])
-def testListingFilter():
-    array = [1, 8]
-    print("sending to control function")
-    res = requests.post("http://127.0.0.1:5000/listings/filter", json=array)
-    print("testListingFilter result is", res)
-    if res.status_code == 200 or res.status_code == 401:
-        return res.text, res.status_code
-    else:
-        return "Uncontrolled error, likely a bug", 404
+# @app.route('/testListingFilter', methods=['GET'])
+# def testListingFilter():
+#     array = [1, 8]
+#     print("sending to control function")
+#     res = requests.post("http://127.0.0.1:5000/listings/filter", json=array)
+#     print("testListingFilter result is", res)
+#     if res.status_code == 200 or res.status_code == 401:
+#         return res.text, res.status_code
+#     else:
+#         return "Uncontrolled error, likely a bug", 404
     
-@app.route('/testLogin', methods=['GET'])
-def testLogin():
-    dictToSend = {
-        "username": "pony_boy",
-        "password": "password"
-        }
+# @app.route('/testLogin', methods=['GET'])
+# def testLogin():
+#     dictToSend = {
+#         "username": "pony_boy",
+#         "password": "password"
+#         }
     
-    res = requests.post("http://127.0.0.1:5000/auth/login", json=dictToSend)
-    print("testLogin response is", res)
-    if res.status_code == 200 or res.status_code == 401:
-        return res.text, res.status_code
-    else:
-        return "Uncontrolled error, likely a bug", 404
+#     res = requests.post("http://127.0.0.1:5000/auth/login", json=dictToSend)
+#     print("testLogin response is", res)
+#     if res.status_code == 200 or res.status_code == 401:
+#         return res.text, res.status_code
+#     else:
+#         return "Uncontrolled error, likely a bug", 404
 
   
 if __name__ == '__main__':
