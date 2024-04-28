@@ -3,7 +3,7 @@
     <!-- <h1>This is a listing page</h1> -->
     <!-- {{ $route.params.id }} | {{ id }} | {{ this.singleListing }} -->
     <!-- {{this.singleListing}} -->
-    USER ID: {{ this.user_name }}
+    <!-- USER ID: {{ this.user_name }} -->
     <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
       <v-container fluid>
       <v-row class="mx-auto px-16 pt-16">
