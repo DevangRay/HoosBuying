@@ -25,10 +25,10 @@ def getImagesByListing(listing_id):
 
 # CHANGE TO listing_id.imgOrder#
 # Only works for JPEG
-def getImage(image_id):
+def getImage(image_path):
     try:
         
-        filename = str(image_id)+".jpg"
+        filename = str(image_path)+".jpg"
         file_path = os.path.join(IMG_FOLDER, filename)
         if os.path.isfile(file_path):
             # return send_file(file_path, mimetype='image/jpeg',as_attachment=True)

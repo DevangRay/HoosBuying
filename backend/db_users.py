@@ -116,9 +116,9 @@ def control_conversations(subpath):
 def control_get_images_by_listing(listing_id):
     return images.getImagesByListing(listing_id)
 
-@app.route('/images/id/<int:img_id>', methods=['GET'])
-def control_get_image(img_id):
-    return images.getImage(img_id)
+@app.route('/images/id/<img_path>', methods=['GET'])
+def control_get_image(img_path):
+    return images.getImage(img_path)
 
 @app.route('/images/upload', methods=['POST'])
 def control_image_post():
