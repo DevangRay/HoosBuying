@@ -1,52 +1,65 @@
 <template>
     {{ this.error_message }}
-    <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
-      <v-form @submit.prevent="submit">
-        <!-- title -->
-        <v-text-field
-            v-model="title"
-            label="Listing Title"
-            :counter="100"
-            :rules="titleRules"
-            required>
-        </v-text-field>
-        <!-- price -->
-        <v-text-field
-            v-model="price"
-            label="price"
-            prefix="$"
-            :rules="priceRules"
-            >
-        </v-text-field>
-        <!-- tags -->
-         <v-select label="Listing Tag"
-         :items="['Furniture', 'Technology', 'Storage', 'Diningware', 'Textbooks', 'Clothes', 'Accessories', 'Miscellaneous']"
-         required
-         v-model="tag">
-        </v-select>
-        <!-- description -->
-        <v-textarea
-            v-model="description"
-            label="Listing Description"
-            :counter="512"
-            :rules="descriptionRules"
-            required
-            clearable
-            no-resize>
-        </v-textarea>
-        <!-- delivery -->
-        <v-radio-group v-model = "delivery_method" label="Preferred Delivery Method" inline required>
-            <v-radio label="In-person Hand Off" :value="1"></v-radio>
-            <v-radio label="Delivery" :value="2"></v-radio>
-            <v-radio label="Pick-up" :value="3"></v-radio>
-        </v-radio-group>
-        <v-btn
-            type="submit"
-            block> 
-            Create New Listing
-        </v-btn>
-      </v-form>
-    </v-sheet>
+    <v-container>
+        <v-row>
+            <v-col>
+                <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
+                    <v-form @submit.prevent="submit">
+                        <!-- title -->
+                        <v-text-field
+                            v-model="title"
+                            label="Listing Title"
+                            :counter="100"
+                            :rules="titleRules"
+                            required>
+                        </v-text-field>
+                        <!-- price -->
+                        <v-text-field
+                            v-model="price"
+                            label="price"
+                            prefix="$"
+                            :rules="priceRules"
+                            >
+                        </v-text-field>
+                        <!-- tags -->
+                        <v-select label="Listing Tag"
+                        :items="['Furniture', 'Technology', 'Storage', 'Diningware', 'Textbooks', 'Clothes', 'Accessories', 'Miscellaneous']"
+                        required
+                        v-model="tag">
+                        </v-select>
+                        <!-- description -->
+                        <v-textarea
+                            v-model="description"
+                            label="Listing Description"
+                            :counter="512"
+                            :rules="descriptionRules"
+                            required
+                            clearable
+                            no-resize>
+                        </v-textarea>
+                        <!-- delivery -->
+                        <v-radio-group v-model = "delivery_method" label="Preferred Delivery Method" inline required>
+                            <v-radio label="In-person Hand Off" :value="1"></v-radio>
+                            <v-radio label="Delivery" :value="2"></v-radio>
+                            <v-radio label="Pick-up" :value="3"></v-radio>
+                        </v-radio-group>
+                        <v-btn
+                            type="submit"
+                            block> 
+                            Create New Listing
+                        </v-btn>
+                    </v-form>
+                </v-sheet>
+            </v-col>
+            <v-col>
+                <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
+                    IMAGE GOES HERE
+                </v-sheet>
+            </v-col>
+        </v-row>
+    </v-container>
+    
+    
 </template>
 
 <script>
