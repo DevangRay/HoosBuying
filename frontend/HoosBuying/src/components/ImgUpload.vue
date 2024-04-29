@@ -59,8 +59,8 @@ export default {
       })
       fileReader.readAsDataURL(files[0])
       this.images.push(files[0])
-      console.log(files[0])
-      console.log(this.imageUrls.length)
+      // console.log(files[0])
+      // console.log(this.imageUrls.length)
       this.curImage++;
       },
       deleteImage(i){
@@ -69,9 +69,9 @@ export default {
       },
 
       async uploadImages(listing_id){
-        console.log("UPLOADING IMAGES to " + listing_id)
+        // console.log("UPLOADING IMAGES to " + listing_id)
         for(let i=0;i<this.images.length;i++) {
-          console.log("IMAGE " + i + "uploading")
+          // console.log("IMAGE " + i + "uploading")
           let imgForm = new FormData()
           imgForm.append('file',this.images[i])
           imgForm.append('listing_id',listing_id)

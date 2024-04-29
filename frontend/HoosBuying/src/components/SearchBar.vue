@@ -60,7 +60,7 @@ import axios from 'axios'
 
             .then((res) => {
                 // console.log("RESULT FOUND ", res);
-                console.log("TAG DATA IS", res.data)
+                // console.log("TAG DATA IS", res.data)
                 this.tag_result = res.data;
                 // console.log("RESULT SHOULD BE THE SAME", this.result);
                 })
@@ -68,7 +68,7 @@ import axios from 'axios'
         change_selected_tag(tag_id) {
                 store.dispatch('callChangeTags', tag_id)
                 .then(() => {
-                    console.log("about to refresh selected tags now");
+                    // console.log("about to refresh selected tags now");
                     this.get_selected_tags();
                 })
             },
@@ -77,7 +77,7 @@ import axios from 'axios'
                 .then((res) => {
                     this.all_clicked_tags = res;
                 })
-                .then( () => console.log("all_clicked_tags is", res))
+                // .then( () => console.log("all_clicked_tags is", res))
             },
         }
     }

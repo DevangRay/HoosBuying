@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 path_root = Path(__file__).parents[2]
 sys.path.append(str(path_root))
-print(sys.path)
+# print(sys.path)
 
 import random
 import string
@@ -24,7 +24,7 @@ def getAllUsers():
     # connection is not autocommit by default. So you must commit to save
     # your changes.
     # connection.commit()
-    print("getAllUsers result is", result)
+    # print("getAllUsers result is", result)
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -88,7 +88,7 @@ def updateUser(fname, lname, computing_id, phone_number, address):
             cursor.execute("UPDATE `User` SET phone_number = %s, address = %s where computing_id = %s;", (phone_number, address, computing_id,))
             connection.commit()
             result = cursor.fetchone()
-    print("UPDATE USER RESULT IS", result)
+    # print("UPDATE USER RESULT IS", result)
     return fname, 200
 
 def updateUserPassword(computing_id, new_hashed_password):
@@ -100,30 +100,30 @@ def updateUserPassword(computing_id, new_hashed_password):
             cursor.execute("UPDATE `User` SET password = %s where computing_id = %s;", (new_hashed_password, computing_id,))
             connection.commit()
             result = cursor.fetchone()
-    print("UPDATE USER RESULT IS", result)
+    # print("UPDATE USER RESULT IS", result)
     return new_hashed_password, 200
     
 
 def create_random_token(length):
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
-    print("Random string of length", length, "is:", result_str)
+    # print("Random string of length", length, "is:", result_str)
     return result_str
 
     
 def login(username, password):
     # check username/password is valid
     user = getUser(username)
-    print("auth.py user is", user)
+    # print("auth.py user is", user)
     db_password = user["password"]
-    print(db_password)
+    # print(db_password)
     
     
     if not bcrypt.checkpw(str.encode(password),str.encode(db_password)):
         return f'password: {password}, is wrong', 401
     else:
         random_string = create_random_token(50)
-        print("random string is", random_string)
+        # print("random string is", random_string)
         
         # ISSUE A TOKEN
         connection = connect()
@@ -133,7 +133,7 @@ def login(username, password):
             cursor.callproc('auth_insert', [random_string,])
             connection.commit()
             result = cursor.fetchall()
-        print("result is", result)
+        # print("result is", result)
         
         if result:
             response = {
@@ -151,7 +151,7 @@ def login(username, password):
 
 def register(username,password,fname,lname,computing_id,address,phone_number):
     user = getUser(username)
-    print("auth.py user is", user)
+    # print("auth.py user is", user)
     if user:
         return "Username already in use", 400
     
@@ -163,7 +163,7 @@ def register(username,password,fname,lname,computing_id,address,phone_number):
             cursor.execute("INSERT INTO `User`(username, password, fname, lname, computing_id, address, phone_number)VALUES(%s, %s, %s, %s, %s, %s, %s);",(username,password,fname,lname,computing_id,address,phone_number))
             connection.commit()
             result = cursor.fetchall()
-            print("Successfully created new account")
+            # print("Successfully created new account")
             return "Successfully created new account", 200
     except Exception as e:
         print(e)

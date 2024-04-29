@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 path_root = Path(__file__).parents[2]
 sys.path.append(str(path_root))
-print(sys.path)
+# print(sys.path)
 
 from backend.endpoints.connector import connect
 from flask import jsonify
@@ -153,7 +153,7 @@ def filterByTags(tag_array):
                     join `User` u on l.owner_id = u.uid 
                     join TagListing tl on l.listing_id = tl.listing_id
                 where tl.tag_id ={}""".format(ids)
-    print("filterByTags post query is", query)
+    # print("filterByTags post query is", query)
     connection = connect()
     result = "GOT NOTHING PAL"
     with connection:
@@ -162,7 +162,7 @@ def filterByTags(tag_array):
             cursor.execute(query)
             result = cursor.fetchall()
             
-    print("result is", result)
+    # print("result is", result)
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

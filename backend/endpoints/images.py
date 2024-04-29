@@ -2,8 +2,8 @@ from pathlib import Path
 import sys,os
 path_root = Path(__file__).parents[2]
 sys.path.append(str(path_root))
-print("PATHROOT  ",path_root)
-print(sys.path)
+# print("PATHROOT  ",path_root)
+# print(sys.path)
 
 import base64
 from backend.endpoints.connector import connect
@@ -20,7 +20,7 @@ def getImagesByListing(listing_id):
         # Create a new record
             cursor.execute("SELECT * from Images where listing_id = %s", (listing_id))
             result = cursor.fetchall()
-            print(result)
+            # print(result)
     return result
 
 
@@ -52,13 +52,13 @@ def uploadImage(request):
     if request.method == 'POST':   
         f = request.files['file']
 
-        print(request.files)
-        print(request.form) 
+        # print(request.files)
+        # print(request.form) 
         listing_id = request.form['listing_id']
         order = request.form['order']
         filename = str(listing_id) + "." +str(order) + ".jpg" 
         f.filename = filename
-        print(filename)
+        # print(filename)
         f.save( os.path.join(IMG_FOLDER,filename)) 
         
         

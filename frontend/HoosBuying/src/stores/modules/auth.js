@@ -60,16 +60,16 @@ const actions = {
   async LogIn({commit}, user) {
     await axios.post("auth/login", user)
       .then((response) => {
-        console.log("response is", response.data)
+        // console.log("response is", response.data)
         let token = response.data.token;
         let user_id = response.data.u_id;
-        console.log("user is", user_id, "token is", token);
+        // console.log("user is", user_id, "token is", token);
         commit("setUser",response.data.username)
         commit("setUid", user_id);
         commit("setToken",token);
 
 
-        console.log("state   " + state.user + state.uid + state.token)
+        // console.log("state   " + state.user + state.uid + state.token)
       })
   },
   async LogOut({ commit }) {
@@ -80,7 +80,7 @@ const actions = {
     router.push("/login")
   },
   async callGetUser({getters}) {
-    console.log("returning", getters.get_user)
+    // console.log("returning", getters.get_user)
     let user_name = null
     user_name = await getters.get_user;
     return getters.get_user
@@ -90,8 +90,8 @@ const actions = {
     let tokenForm = new FormData()
     tokenForm.append("token", token)
     let response = await axios.post('auth/checkToken', tokenForm);
-    console.log("GOT RESPONSE HERE", response)
-    console.log("returning", response.data == "Success, Token Found")
+    // console.log("GOT RESPONSE HERE", response)
+    // console.log("returning", response.data == "Success, Token Found")
     return response.data == "Success, Token Found"
   }
 };
@@ -105,7 +105,7 @@ const mutations = {
   },
   setToken(state, token) {
     state.token = token;
-    console.log("set token", state.token, "to", token)
+    // console.log("set token", state.token, "to", token)
   },
 
   logout(state, user, token, uid) {
