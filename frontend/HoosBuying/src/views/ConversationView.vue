@@ -1,9 +1,11 @@
 <template>
   <div class="account">
     <h1>Chat about {{ convo.host_fname }}'s {{ convo.title }}</h1>
+    <h2 v-if="convo.host_id != uid"> With {{convo.host_fname  }} {{ convo.host_lname }}</h2>
+    <h2 v-else> With {{convo.cust_fname  }} {{ convo.cust_lname }}</h2>
     <v-btn @click="viewListing">View Listing</v-btn>
     <v-btn @click="deleteConvo" color='red'>Delete Chat</v-btn>
-    <v-sheet elevation="24" width="100vh" height="80vh" rounded="xl" color="green-lighten-3" overflow-y-auto>
+    <v-sheet elevation="24" width="80vh" height="80vh" rounded="xl" color="green-lighten-3" overflow-y-auto>
       <v-container fluid height="100%">
 
         <div v-for="message in messages.slice().reverse()">

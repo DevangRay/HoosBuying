@@ -27,6 +27,7 @@
             <v-text-field v-model="address" :rules="address_rules" label="Address" required :counter="255" clearable>
             </v-text-field>
           </v-row>
+          <h4 v-if="success_message">{{ success_message }}</h4>
           <v-btn type="submit" block>
             Update User
           </v-btn>
@@ -54,7 +55,7 @@
               </v-text-field>
             </v-col>
           </v-row>
-          <h4 v-if="password_error_message">Error: {{ this.password_error_message }}</h4>
+          <h4 v-if="password_error_message"> {{ this.password_error_message }}</h4>
           <v-btn type="submit" block>
             Update Password
           </v-btn>
@@ -130,6 +131,7 @@ export default {
       show_new_conf: true,
       unconf_new_password: "",
       conf_new_password: "",
+      success_message: "",
       password_rules: [
         value => {
           if (value) return true
@@ -140,11 +142,7 @@ export default {
 
           return 'Password must be less than 100 characters'
         },
-        value => {
-          if (value?.length >= 8) return true
-
-          return 'Password must be more than 8 characters'
-        }
+        
       ]
     };
   },
@@ -174,6 +172,7 @@ export default {
         })
     },
     async submitOther() {
+      this.success_message = "";
       const url = "http://127.0.0.1:5000/user/update"
       let userForm = new FormData()
       userForm.append("address", this.address)
@@ -185,6 +184,7 @@ export default {
       let response = await axios.post(url, userForm)
       if (response.status = 200) {
         this.getUserInfo();
+        this.success_message = "Succesfully updated!"
       }
       else {
         this.error_message = "Sorry, an issue has occurred. Please refresh and try again."
@@ -214,6 +214,12 @@ export default {
           let response = await axios.post(url, passForm)
           if (response.status != 200) {
             this.password_error_message = "Sorry, an issue has occurred. Please refresh and try again."
+          }
+          else{
+            this.curr_password = ""
+            this.unconf_new_password = ""
+            this.conf_new_password = ""
+            this.password_error_message = "Successfully changed password"
           }
         }
       }

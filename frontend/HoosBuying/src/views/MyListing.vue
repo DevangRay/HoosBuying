@@ -3,7 +3,7 @@
         <v-col>
             <v-card @click="goToListing(listing.listing_id)">
                 <v-card-item>
-                    <v-card-title>{{ listing.title }} | {{ listing.listing_id }}</v-card-title>
+                    <v-card-title>{{ listing.title }}</v-card-title>
                     <v-card-subtitle>${{ listing.price }}</v-card-subtitle>
                 </v-card-item>
 
