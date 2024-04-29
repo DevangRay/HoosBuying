@@ -162,7 +162,7 @@ export default {
           axios.post(url, userForm)
             .then((res) => {
               // console.log("RESULT FOUND ", res);
-              console.log("USER DATA IS", res.data)
+              // console.log("USER DATA IS", res.data)
               this.address = res.data.address
               this.computing_id = res.data.computing_id
               this.fname = res.data.fname
@@ -193,7 +193,7 @@ export default {
     async submitPassword() {
       if (this.unconf_new_password == this.conf_new_password) {
         // unhashed new vs hashed old
-        console.log(bcrypt.compareSync(this.conf_new_password, this.stored_password))
+        // console.log(bcrypt.compareSync(this.conf_new_password, this.stored_password))
         if (!bcrypt.compareSync(this.curr_password, this.stored_password)) {
           // current password and stored do not match
           this.password_error_message = "Invalid current password"

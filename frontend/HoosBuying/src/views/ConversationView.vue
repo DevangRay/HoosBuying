@@ -92,7 +92,7 @@ export default {
       axios.get(url, { headers })
 
         .then((res) => {
-          console.log("Convo DATA IS", res.data)
+          // console.log("Convo DATA IS", res.data)
           if (this.uid != res.data['host_id'] && this.uid != res.data['customer_id']) {
             this.$router.push("/chats");
           }
@@ -103,7 +103,7 @@ export default {
     }, async submit(event) {
       this.errorMessage = null;
       const results = await event;
-      console.log("I got", results.valid, " value is", this.new_message)
+      // console.log("I got", results.valid, " value is", this.new_message)
 
       if (results.valid) {
         let UserForm = new FormData()
@@ -117,11 +117,11 @@ export default {
         try {
           let res = await axios.post('conversations/send', UserForm)
 
-          console.log(res)
+          // console.log(res)
           this.getConvo(this.$route.params.id)
         }
         catch (e) {
-          console.log(e)
+          // console.log(e)
           this.errorMessage = "Error sending message"
         }
       }

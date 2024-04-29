@@ -61,7 +61,7 @@ export default {
             const url = "http://127.0.0.1:5000/listings/getOwned"
             let result = await axios.post(url, listingForm)
             this.listing_result = result.data
-            console.log("listing_result is", this.listing_result)
+            // console.log("listing_result is", this.listing_result)
         },
         goToListing(listing_id) {
             this.$router.push("/myListing/" + listing_id);

@@ -35,7 +35,7 @@
 
           .then((res) => {
               // console.log("listing_result FOUND ", res);
-              console.log("LISTING DATA IS", res.data)
+              // console.log("LISTING DATA IS", res.data)
               this.listing_result = res.data;
               // console.log(listing_result SHOULD BE THE SAME, this.listing_result);
           })
@@ -50,7 +50,7 @@
 
             .then((res) => {
                 // console.log("RESULT FOUND ", res);
-                console.log("TAG DATA IS", res.data)
+                // console.log("TAG DATA IS", res.data)
                 this.tag_result = res.data;
                 // console.log("RESULT SHOULD BE THE SAME", this.result);
                 })
@@ -83,11 +83,11 @@
           // })
           // }
           this.get_selected_tags()
-          console.log("about to send to listings/filter")
-          console.log(this.all_clicked_tags)
+          // console.log("about to send to listings/filter")
+          // console.log(this.all_clicked_tags)
           axios.post("listings/filter", this.all_clicked_tags)
           .then((res) => {
-            console.log("FILTERED LISTING DATA IS", res.data);
+            // console.log("FILTERED LISTING DATA IS", res.data);
             this.listing_result = res.data;
           })
         },
@@ -95,7 +95,7 @@
             return this.all_clicked_tags.length === 0 || this.all_clicked_tags.includes(tag_id);
         },
         clearTagArray() {
-          console.log("I AM CLEARING ARRAY");
+          // console.log("I AM CLEARING ARRAY");
           this.all_clicked_tags = [];
         },
         goToListing(listing_id) {

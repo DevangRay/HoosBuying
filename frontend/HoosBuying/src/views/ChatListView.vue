@@ -82,11 +82,11 @@ export default {
 
       let url = "";
       if (this.filter == 'Only Buying') {
-        console.log("Only Buying")
+        // console.log("Only Buying")
         url = "http://127.0.0.1:5000/conversations/getCustomer/" + this.uid;
       }
       else if (this.filter == 'Only Selling') {
-        console.log("Only Selling")
+        // console.log("Only Selling")
         url = "http://127.0.0.1:5000/conversations/getOwner/" + this.uid;
       }
       else
@@ -95,7 +95,7 @@ export default {
       axios.get(url, { headers })
 
         .then((res) => {
-          console.log("LISTING DATA IS", res.data)
+          // console.log("LISTING DATA IS", res.data)
           this.conversations = res.data;
         })
     },

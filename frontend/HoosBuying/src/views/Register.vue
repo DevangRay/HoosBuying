@@ -78,7 +78,7 @@
           this.$router.push("/");
           this.showError = false
         } catch (error) {
-          console.log(error)
+          // console.log(error)
           this.errorMessage = "Failed to create new user!"
           this.showError = true
         }

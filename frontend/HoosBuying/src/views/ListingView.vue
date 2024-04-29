@@ -89,7 +89,7 @@ export default {
     getSingleListing(listing_id) {
       store.dispatch('getListing', listing_id)
         .then((result) => {
-          console.log("ListingVue result is", result)
+          // console.log("ListingVue result is", result)
           this.singleListing = result;
           store.dispatch('callGetUser')
             .then((res) => this.user_name = res)
@@ -98,7 +98,7 @@ export default {
     },
     async submit(event) {
       const results = await event;
-      console.log("I got", results.valid, " value is", this.placeholder)
+      // console.log("I got", results.valid, " value is", this.placeholder)
 
       if (results.valid) {
         // SEND MESSAGE HERE
@@ -112,11 +112,11 @@ export default {
         UserForm.append('user_id', this.uid)
         try{
         let res = await axios.post('conversations/send', UserForm)
-        console.log(res)
+        // console.log(res)
         this.$router.push("/chats/"+res.data['convo_id'])
         }
         catch(e){
-          console.log(e)
+          // console.log(e)
           this.errorMessage = "Error sending message"
         }
 

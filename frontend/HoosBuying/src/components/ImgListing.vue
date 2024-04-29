@@ -42,7 +42,7 @@
       methods: {
         async fetchImagesInfo(listing_id){
             let res= await axios.get('images/'+listing_id)
-            console.log(res.data);
+            // console.log(res.data);
             this.images = res.data;
             for(let i=0;i<this.images.length;i++){
                 await this.fetchImage(this.images[i]['listing_id']+'.'+this.images[i]['order'],i);

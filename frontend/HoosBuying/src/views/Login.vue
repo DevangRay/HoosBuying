@@ -55,7 +55,7 @@ export default {
           this.showError = true
         }
       } catch (error) {
-        console.log("caught error", error)
+        // console.log("caught error", error)
         this.showError = true
       }
     },

@@ -92,7 +92,7 @@ export default {
         getSingleListing(listing_id) {
             store.dispatch('getListing', listing_id)
                 .then((result) => {
-                    console.log("ListingVue result is", result)
+                    // console.log("ListingVue result is", result)
                     this.singleListing = result;
                     this.delivery_method = result.delivery_id;
                     this.status_id = result.status_id;
@@ -102,7 +102,7 @@ export default {
         },
         async submit(event) {
             const results = await event;
-            console.log("I got", results.valid, " delivery_method value is", this.delivery_method, "and status_id is", this.status_id)
+            // console.log("I got", results.valid, " delivery_method value is", this.delivery_method, "and status_id is", this.status_id)
 
             if (results.valid) {
                 let listingForm = new FormData();
@@ -120,7 +120,7 @@ export default {
             }
         },
         async deleteFunc() {
-            console.log("deleting")
+            // console.log("deleting")
             let deleteForm = new FormData();
             deleteForm.append("listing_id", this.singleListing.listing_id)
 
