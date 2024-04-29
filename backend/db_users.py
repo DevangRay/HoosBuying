@@ -145,6 +145,11 @@ def control_single_user(subpath):
          address = request.form["address"]
          
          return auth.updateUser(fname, lname, computing_id, phone_number, address)
+     elif subpath == "updatePassword":
+         computing_id = request.form["computing_id"]
+         new_hashed_password = request.form["password"]
+         
+         return auth.updateUserPassword(computing_id, new_hashed_password)
      
      
      

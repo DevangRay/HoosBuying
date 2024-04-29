@@ -13,7 +13,7 @@
         async logout() {
           this.$store.commit('clearTags')
           await this.$store.dispatch("LogOut");
-          // this.$router.push("/login");
+          this.$router.push("/login");
         },
       },
       beforeMount() {
