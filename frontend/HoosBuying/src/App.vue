@@ -48,12 +48,13 @@ export default {
       appTitle: 'Awesome App',
       sidebar: false,
       menuItems: [
-        { title: 'Home', path: '/', icon: 'mdi-home' },
-        { title: 'Search', path: '/search', icon: 'mdi-card-search' },
-        { title: 'Chats', path: '/chats', icon: 'mdi-forum' },
-        { title: 'Account', path: '/account', icon: 'mdi-account-cowboy-hat-outline' },
-        { title: 'Logout', path: '/logout', icon: 'mdi-exit-run' },
-      ]
+          { title: 'Home', path: '/', icon: 'mdi-home' },
+          { title: 'Search', path: '/search', icon: 'mdi-card-search' },
+          { title: 'Create Listing', path: '/insertListing', icon: 'mdi-plus-circle-outline' },
+          { title: 'Chats', path: '/chats', icon: 'mdi-forum' },
+          { title: 'Account', path: '/account', icon: 'mdi-account-cowboy-hat-outline' },
+          { title: 'Logout', path: '/logout', icon: 'mdi-exit-run' },
+     ]
     }
   },
   name: "App",
@@ -65,7 +66,7 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch("LogOut");
-      this.$router.push("/login");
+      // this.$router.push("/login");
     },
   },
 };

@@ -40,7 +40,7 @@ def checkToken(token):
             result = cursor.fetchall()
         
     if not result:
-        return "Error: No Token Found", 401
+        return "Error: No Token Found", 200
     else:
         return "Success, Token Found", 200
     
@@ -55,6 +55,54 @@ def getUser(username):
             result = cursor.fetchone()
     return result
 
+def getUserPassword(username):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+        # Create a new record
+            cursor.execute("SELECT password FROM `User` WHERE username = %s", (username,))
+            result = cursor.fetchone()
+    if result:
+        return result
+    else:
+        return "Unable to login", 401
+
+def getUserProfile(username):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+            # Create a new record
+            cursor.execute("SELECT username, password, fname, lname, computing_id, address, phone_number FROM `User` u WHERE username = %s", (username,))
+            result = cursor.fetchone()
+    return result
+
+
+def updateUser(fname, lname, computing_id, phone_number, address):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+            # Create a new record
+            cursor.execute("UPDATE `User` SET phone_number = %s, address = %s where computing_id = %s;", (phone_number, address, computing_id,))
+            connection.commit()
+            result = cursor.fetchone()
+    print("UPDATE USER RESULT IS", result)
+    return fname, 200
+
+def updateUserPassword(computing_id, new_hashed_password):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    with connection:
+        with connection.cursor() as cursor:
+            # Create a new record
+            cursor.execute("UPDATE `User` SET password = %s where computing_id = %s;", (new_hashed_password, computing_id,))
+            connection.commit()
+            result = cursor.fetchone()
+    print("UPDATE USER RESULT IS", result)
+    return new_hashed_password, 200
+    
 
 def create_random_token(length):
     letters = string.ascii_lowercase
