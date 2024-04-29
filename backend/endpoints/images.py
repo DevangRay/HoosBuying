@@ -20,6 +20,7 @@ def getImagesByListing(listing_id):
         # Create a new record
             cursor.execute("SELECT * from Images where listing_id = %s", (listing_id))
             result = cursor.fetchall()
+            print(result)
     return result
 
 
@@ -49,6 +50,30 @@ def getImage(image_path):
 
 def uploadImage(request):
     if request.method == 'POST':   
-        f = request.files['file'] 
-        f.save( os.path.join(IMG_FOLDER,f.filename))   
+        f = request.files['file']
+
+        print(request.files)
+        print(request.form) 
+        listing_id = request.form['listing_id']
+        order = request.form['order']
+        filename = str(listing_id) + "." +str(order) + ".jpg" 
+        f.filename = filename
+        print(filename)
+        f.save( os.path.join(IMG_FOLDER,filename)) 
+        
+        
+        connection = connect()
+        result = "GOT NOTHING PAL"
+        with connection:
+            with connection.cursor() as cursor:
+        # Create a new record
+                cursor.execute("INSERT INTO Images (listing_id,`order`) VALUES (%s,%s)", (listing_id,order))
+                connection.commit()
+                result = cursor.fetchall()
         return 'Success', 200
+    
+    return "NOOOOO", 500
+
+
+
+        

@@ -4,6 +4,11 @@
     <v-row>
       <v-col>
         <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
+          <ImgUpload ref="imgUpload"/>
+        </v-sheet>
+      </v-col>
+      <v-col>
+        <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
           <v-form @submit.prevent="submit">
             <!-- title -->
             <v-text-field v-model="title" label="Listing Title" :counter="100" :rules="titleRules" required>
@@ -32,11 +37,7 @@
           </v-form>
         </v-sheet>
       </v-col>
-      <v-col>
-        <v-sheet :elevation="24" :width="700" :height="600" :rounded="'xl'" color="green-lighten-3">
-          IMAGE GOES HERE
-        </v-sheet>
-      </v-col>
+      
     </v-row>
   </v-container>
 
@@ -46,12 +47,13 @@
 <script>
 import axios from 'axios';
 import store from '@/stores';
+import ImgUpload from '../components/ImgUpload.vue'
 
 export default {
   name: 'SingleListing',
-  //   components: {
-  //     SearchBar
-  // },
+    components: {
+      ImgUpload,
+  },
   data() {
     return {
       title: "",
@@ -92,9 +94,9 @@ export default {
       error_message: null
     };
   },
-  props: {
-    msg: String
-  },
+  // props: {
+  //   msg: String
+  // },
   mounted() {
     this.getUser()
   },
@@ -145,6 +147,9 @@ export default {
         listingForm.append('owner_uname', this.user_name)
         let response = await axios.post('http://127.0.0.1:5000/listings/insert', listingForm)
         if (response.status = 200) {
+          console.log(response.data)
+          console.log(response.data[0]['new_listing_id'])
+          this.$refs.imgUpload.uploadImages(response.data[0]['new_listing_id'])
           this.$router.push("/");
         }
         else {
