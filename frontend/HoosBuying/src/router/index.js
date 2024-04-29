@@ -56,6 +56,13 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/insertListing',
+      name: 'insertListing',
+      component: () => import('../views/InsertListing.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -92,6 +99,16 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (store.getters.isAuthenticated) {
+      // check token
+      console.log("checking token");
+      store.dispatch('checkToken')
+      .then((res) => {
+        if (!res){
+          console.log(res, "is result")
+          store.dispatch("LogOut");
+        }
+      });
+      console.log("finished checking token");
       next();
       return;
     }

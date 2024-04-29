@@ -43,13 +43,13 @@ def getOneListing(listing_id):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-def insertListing(description, status_id, delivery_id, owner_id, title, price, tag_id=8):
+def insertListing(description, status_id, delivery_id, owner_uname, title, price, tag_id=8):
     connection = connect()
     result = "GOT NOTHING PAL"
     with connection:
         with connection.cursor() as cursor:
         # Create a new record
-            cursor.callproc('listing_insert', [description, status_id, delivery_id, owner_id, title, float(price), tag_id])
+            cursor.callproc('listing_insert', [description, status_id, delivery_id, owner_uname, title, float(price), tag_id])
             connection.commit()
             result = cursor.fetchall()
             

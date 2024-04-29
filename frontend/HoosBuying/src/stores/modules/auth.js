@@ -1,6 +1,7 @@
 import Login from '@/views/Login.vue';
 import axios from 'axios';
 import bcrypt from 'bcryptjs'
+import router from '@/router';
 
 
 const state = {
@@ -13,7 +14,10 @@ const getters = {
     StateToken:state => state.token,
     get_user(state) {
       return state.user
-  },
+    },
+    get_token(state) {
+      return state.token
+    }
 };
 const actions = {
   async Register({dispatch}, form) {
@@ -39,6 +43,15 @@ const actions = {
     await dispatch('LogIn', LoginForm)
   },
 
+  getPassword(state, username) {
+    let passwordForm = new FormData();
+    passwordForm.append("username", username)
+
+    const url = "http://127.0.0.1:5000/auth/getPassword"
+    return axios.post(url, passwordForm)
+      .then(res=> res.data.password)
+  },
+
   async LogIn({commit}, user) {
     await axios.post("auth/login", user)
       .then((response) => {
@@ -54,6 +67,7 @@ const actions = {
     let user = null;
     let token = null;
     commit("logout", user,token);
+    router.push("/login")
   },
   async callGetUser({getters}) {
     console.log("returning", getters.get_user)
@@ -61,6 +75,15 @@ const actions = {
     user_name = await getters.get_user;
     return getters.get_user
   },
+  async checkToken({getters}) {
+    let token = await getters.get_token;
+    let tokenForm = new FormData()
+    tokenForm.append("token", token)
+    let response = await axios.post('auth/checkToken', tokenForm);
+    console.log("GOT RESPONSE HERE", response)
+    console.log("returning", response.data == "Success, Token Found")
+    return response.data == "Success, Token Found"
+  }
 };
 
 const mutations = {
@@ -69,6 +92,7 @@ const mutations = {
   },
   setToken(state, token) {
     state.token = token;
+    console.log("set token", state.token, "to", token)
   },
 
   logout(state, user, token) {

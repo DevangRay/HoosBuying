@@ -22,11 +22,15 @@ def control_all_users():
     return auth.getAllUsers()
 
 
-@app.route('/auth/<path:subpath>', methods=['GET', 'POST'])
+@app.route('/auth/<path:subpath>', methods=['POST'])
 def control_auth(subpath):
     if subpath == "checkToken":
-        token = request.json['token']
+        token = request.form['token']
         return auth.checkToken(token)
+    
+    elif subpath == "getPassword":
+        username = request.form["username"]
+        return auth.getUserPassword(username)
     
     # returns a dictionary with 'token' and 'username' keys
     elif subpath == "login":
@@ -82,10 +86,11 @@ def control_listings(subpath):
         description = request.form["description"]
         status_id = request.form["status_id"]
         delivery_id = request.form["delivery_id"]
-        owner_id = request.form["owner_id"]
+        owner_uname = request.form["owner_uname"]
         title = request.form["title"]
         price = request.form["price"]
-        return listings.insertListing(description, status_id, delivery_id, owner_id, title, price)
+        tag_id = request.form["tag_id"]
+        return listings.insertListing(description, status_id, delivery_id, owner_uname, title, price, tag_id)
     elif subpath == "update":
         listing_id = request.form["listing_id"]
         dict = request.form
@@ -136,6 +141,29 @@ def control_get_image(img_path):
 @app.route('/images/upload', methods=['POST'])
 def control_image_post():
      return images.uploadImage(request)
+ 
+@app.route('/user/<path:subpath>', methods=['POST'])
+def control_single_user(subpath):
+     if subpath == "getUserInfo":
+         print("request is", request.form)
+         username = request.form["username"]
+         print("youre in the right place", username)
+         return auth.getUserProfile(username)
+     elif subpath == "update":
+         print("request is", request.form)
+         fname = request.form["fname"]
+         lname = request.form["lname"]
+         computing_id = request.form["computing_id"]
+         phone_number = request.form["phone_number"]
+         address = request.form["address"]
+         
+         return auth.updateUser(fname, lname, computing_id, phone_number, address)
+     elif subpath == "updatePassword":
+         computing_id = request.form["computing_id"]
+         new_hashed_password = request.form["password"]
+         
+         return auth.updateUserPassword(computing_id, new_hashed_password)
+     
      
      
 # TEST FUNCTION ONLY
