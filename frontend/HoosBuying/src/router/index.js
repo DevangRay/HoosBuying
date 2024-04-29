@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('../views/SearchView.vue'),
       meta: { requiresAuth: true },
     },
     {
@@ -59,6 +59,20 @@ const router = createRouter({
       path: '/insertListing',
       name: 'insertListing',
       component: () => import('../views/InsertListing.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/myListings',
+      name: 'myListings',
+      component: () => import('../views/MyListing.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/myListing/:id',
+      name: 'myListing',
+      component: () => import('../views/MySingleListing.vue'),
       props: true,
       meta: { requiresAuth: true },
     },

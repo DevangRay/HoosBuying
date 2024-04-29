@@ -65,6 +65,11 @@ def control_tags():
 def control_get_one_listing(listing_id):
     return listings.getOneListing(listing_id)
 
+@app.route('/listings/getOwned', methods=['POST'])
+def control_get_all_owned_listings():
+    username = request.form["username"]
+    return listings.getAllOwnedListings(username)
+
 @app.route('/listings/filter/<int:id>', methods=['GET'])
 def control_listings_filter(id):
     return listings.filterByTags(id)
@@ -92,9 +97,14 @@ def control_listings(subpath):
         tag_id = request.form["tag_id"]
         return listings.insertListing(description, status_id, delivery_id, owner_uname, title, price, tag_id)
     elif subpath == "update":
+        delivery_id = request.form["delivery_id"]
+        status_id = request.form["status_id"]
         listing_id = request.form["listing_id"]
-        dict = request.form
-        return listings.updateListing(dict, listing_id=listing_id), 200
+        # dict = request.form
+        return listings.updateListing(status_id, delivery_id, listing_id=listing_id), 200
+    elif subpath == "delete":
+        listing_id = request.form["listing_id"]
+        return listings.deleteListing(listing_id), 200
     else:
         return "Found no endpoint in auth"
     
