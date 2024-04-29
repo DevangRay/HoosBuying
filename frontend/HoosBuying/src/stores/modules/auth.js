@@ -11,9 +11,13 @@ const state = {
 const getters = {
     isAuthenticated: state => !!state.token,    
     StateUser: state => state.user,
+    StateUid: state =>state.uid,
     StateToken:state => state.token,
     get_user(state) {
       return state.user
+    },
+    get_uid(state) {
+      return state.uid
     },
     get_token(state) {
       return state.token
@@ -59,14 +63,16 @@ const actions = {
         let token = response.data.token;
         let user_id = response.data.u_id;
         console.log("user is", user_id, "token is", token);
-        commit("setUser", user_id);
+        commit("setUser",response.data.username)
+        commit("setUid", user_id);
         commit("setToken",token);
       })
   },
   async LogOut({ commit }) {
     let user = null;
+    let uid = null
     let token = null;
-    commit("logout", user,token);
+    commit("logout", user,token,uid);
     router.push("/login")
   },
   async callGetUser({getters}) {
@@ -90,14 +96,18 @@ const mutations = {
   setUser(state, username) {
     state.user = username;
   },
+  setUser(state, uid) {
+    state.uid = uid;
+  },
   setToken(state, token) {
     state.token = token;
     console.log("set token", state.token, "to", token)
   },
 
-  logout(state, user, token) {
+  logout(state, user, token, uid) {
     state.user = user;
     state.token = token;
+    state.uid = uid;
   },
 };
 

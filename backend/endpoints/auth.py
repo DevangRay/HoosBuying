@@ -138,6 +138,7 @@ def login(username, password):
         if result:
             response = {
                 "u_id" : user['uid'],
+                "username" : user['username'],
                 "token" : random_string
 
             }
