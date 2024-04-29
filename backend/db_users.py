@@ -28,6 +28,10 @@ def control_auth(subpath):
         token = request.form['token']
         return auth.checkToken(token)
     
+    elif subpath == "getPassword":
+        username = request.form["username"]
+        return auth.getUserPassword(username)
+    
     # returns a dictionary with 'token' and 'username' keys
     elif subpath == "login":
         # print("in auth/login with request", request)

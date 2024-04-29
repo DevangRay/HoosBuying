@@ -43,6 +43,16 @@ const actions = {
     await dispatch('LogIn', LoginForm)
   },
 
+  getPassword(state, username) {
+    let passwordForm = new FormData();
+    passwordForm.append("username", username)
+
+    const url = "http://127.0.0.1:5000/auth/getPassword"
+    return axios.post(url, passwordForm)
+      .then(res=> res.data.password)
+      .catch(err => console.error("getPassword error", err))
+  },
+
   async LogIn({commit}, user) {
     await axios.post("auth/login", user)
       .then((response) => {
