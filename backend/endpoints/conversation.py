@@ -94,16 +94,16 @@ def getConversationById(convo_id):
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-def addNewMessage(convo_id, user_id, text):
+def addNewMessage(listing_id,host_id,customer_id,new_message,user_id):
     connection = connect()
     result = "GOT NOTHING PAL"
-    with connection:
-        with connection.cursor() as cursor:
-        # Create a new record
-            cursor.execute("INSERT INTO Message (`time`, `text`, convo_id, author_id) VALUES (NOW(), %s, %s, %s)", (text, convo_id, user_id))
-            connection.commit()
-            result = cursor.fetchall()
-      
-    response = jsonify(result)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    try:
+        with connection:
+            with connection.cursor() as cursor:
+            # Create a new record
+                cursor.execute("CALL add_message(%s,%s,%s,%s,%s)", (listing_id,host_id,customer_id,new_message,user_id))
+                connection.commit()
+                return "Successfully sent message", 200
+    except Exception as e:
+        print(e)
+        return "Problem sending message", 500  

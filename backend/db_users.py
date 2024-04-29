@@ -107,15 +107,17 @@ def control_get_conversations(subpath, user_id):
 def control_get_convo_by_ids(convo_id):
     return conversation.getConversationById(convo_id)
 
-@app.route('/conversations/<path:subpath>', methods=['GET', 'POST'])
+@app.route('/conversations/<path:subpath>', methods=[ 'POST'])
 def control_conversations(subpath):
-    if subpath == "insert":
-        conversation_id = request.form["conversation_id"]
+    if subpath == "send":
         user_id=request.form["user_id"]
-        message = request.form["message"]
-        return conversation.addNewMessage(conversation_id, user_id, message)
+        new_message = request.form["new_message"]
+        host_id = request.form['host_id']
+        customer_id = request.form['customer_id']
+        listing_id = request.form['listing_id']
+        return conversation.addNewMessage(listing_id,host_id,customer_id,new_message,user_id)
     else:
-        return "Found no endpoint in auth"
+        return "Found no endpoint in conversations"
 
 
 
