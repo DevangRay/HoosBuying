@@ -77,7 +77,7 @@ export default {
     this.getConvo(this.$route.params.id)
   },
   computed: {
-    uid: function () { return store.getters.get_user }
+    uid: function () { return store.getters.get_uid }
 
   },
   methods: {

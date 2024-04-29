@@ -80,7 +80,7 @@ export default {
     msg: String
   },
   computed: {
-    uid: function () { return store.getters.get_user }
+    uid: function () { return store.getters.get_uid}
   },
   mounted() {
     this.getSingleListing(this.$route.params.id);

@@ -7,6 +7,7 @@ import router from '@/router';
 const state = {
     user: null,
     token: null,
+    uid:null,
 };
 const getters = {
     isAuthenticated: state => !!state.token,    
@@ -66,6 +67,9 @@ const actions = {
         commit("setUser",response.data.username)
         commit("setUid", user_id);
         commit("setToken",token);
+
+
+        console.log("state   " + state.user + state.uid + state.token)
       })
   },
   async LogOut({ commit }) {
@@ -96,7 +100,7 @@ const mutations = {
   setUser(state, username) {
     state.user = username;
   },
-  setUser(state, uid) {
+  setUid(state, uid) {
     state.uid = uid;
   },
   setToken(state, token) {

@@ -65,7 +65,7 @@ export default {
     }
   },
   computed: {
-    uid: function () { return store.getters.get_user }
+    uid: function () { return store.getters.get_uid }
   },
   mounted() {
 
