@@ -107,6 +107,10 @@ def control_get_conversations(subpath, user_id):
 def control_get_convo_by_ids(convo_id):
     return conversation.getConversationById(convo_id)
 
+@app.route('/conversations/delete/<int:convo_id>', methods=[ 'POST'])
+def control_del_convo_by_id(convo_id):
+    return conversation.deleteConversationById(convo_id)
+
 @app.route('/conversations/<path:subpath>', methods=[ 'POST'])
 def control_conversations(subpath):
     if subpath == "send":

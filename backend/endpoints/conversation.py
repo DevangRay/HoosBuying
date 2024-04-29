@@ -108,3 +108,18 @@ def addNewMessage(listing_id,host_id,customer_id,new_message,user_id):
     except Exception as e:
         print(e)
         return "Problem sending message", 500  
+
+
+def deleteConversationById(convo_id):
+    connection = connect()
+    result = "GOT NOTHING PAL"
+    try:
+        with connection:
+            with connection.cursor() as cursor:
+            # Create a new record
+                cursor.execute("DELETE FROM Conversation where convo_id = %s;", (convo_id))
+                connection.commit()
+                return "Success", 200
+    except Exception as e:
+        print(e)
+        return "Problem deleting conversation", 500

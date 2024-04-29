@@ -2,7 +2,7 @@
   <div class="account">
     <h1>Chat about {{ convo.host_fname }}'s {{ convo.title }}</h1>
     <v-btn @click="viewListing">View Listing</v-btn>
-    <v-btn color='red'>Delete Chat</v-btn>
+    <v-btn @click="deleteConvo" color='red'>Delete Chat</v-btn>
     <v-sheet elevation="24" width="100vh" height="80vh" rounded="xl" color="green-lighten-3" overflow-y-auto>
       <v-container fluid height="100%">
 
@@ -37,7 +37,7 @@
             <v-form @submit.prevent="submit">
               <v-textarea clearable label="Type Message" variant="solo-filled" v-model="new_message"
                 bg-color="grey-lighten-2" counter :rules="rules" no-resize></v-textarea>
-                <p color = 'red' v-if="errorMessage">{{ errorMessage }}</p>
+              <p color='red' v-if="errorMessage">{{ errorMessage }}</p>
               <v-btn type="submit">
                 Send
               </v-btn>
@@ -69,7 +69,7 @@ export default {
       convo: [],
       messages: [],
       new_message: "",
-      errorMessage:null,
+      errorMessage: null,
       rules: [v => v.length <= 256 || "Max 256 chracters", v => v.length > 0 || "Can't send an empty message"],
     };
   },
@@ -112,14 +112,15 @@ export default {
         UserForm.append('host_id', this.convo['host_id'])
         UserForm.append('customer_id', this.convo['customer_id'])
         UserForm.append('new_message', this.new_message)
-        UserForm.append('user_id',  this.uid)
+        UserForm.append('user_id', this.uid)
 
-        try{
-        let res = await axios.post('conversations/send', UserForm)
+        try {
+          let res = await axios.post('conversations/send', UserForm)
 
-        console.log(res)
-        this.getConvo(this.$route.params.id)}
-        catch(e){
+          console.log(res)
+          this.getConvo(this.$route.params.id)
+        }
+        catch (e) {
           console.log(e)
           this.errorMessage = "Error sending message"
         }
@@ -128,6 +129,13 @@ export default {
     },
     viewListing() {
       this.$router.push("/listing/" + this.convo['listing_id']);
+    },
+    async deleteConvo() {
+      let res = await axios.post('conversations/delete/' + this.convo['convo_id'])
+      if (res.status == 200) {
+        this.$router.push("/chats");
+      }
+
     }
   }
 }
