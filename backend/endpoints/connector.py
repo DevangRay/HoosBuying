@@ -2,10 +2,10 @@ import pymysql
 
 def connect():
     connection = pymysql.connect(
-        host="34.145.170.154", 
-        user="website", 
-        password="websitepassword", 
-        database= "HoosBuying",
+        host="", 
+        user="", 
+        password="", 
+        database= "",
         cursorclass=pymysql.cursors.DictCursor
     )
     if connection:
