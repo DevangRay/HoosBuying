@@ -68,10 +68,10 @@
                 const url = "http://127.0.0.1:5000/getAllUsers"
                 axios.get(url, {headers})
                 .then((res) => {
-                    console.log("RESULT FOUND ", res);
-                    console.log("DATA IS", res.data)
+                    // console.log("RESULT FOUND ", res);
+                    // console.log("DATA IS", res.data)
                     this.result = res.data;
-                    console.log("RESULT SHOULD BE THE SAME", this.result);
+                    // console.log("RESULT SHOULD BE THE SAME", this.result);
                 })
             }
         }

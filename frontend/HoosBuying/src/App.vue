@@ -1,84 +1,77 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import NavBar from './components/NavBar.vue'
 
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <v-container fluid>
+    <v-layout light>
+      <v-app-bar :elevation="2">
+        <template v-slot:prepend>
+          <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
+        </template>
 
-      <NavBar></NavBar>
-    </div>
-  </header>
+        <v-app-bar-title>HoosBuying</v-app-bar-title>
+        <v-spacer></v-spacer>
+        <v-app-bar-items class="hidden-xs-only">
+          <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.path">
+            <v-icon left dark>{{ item.icon }}</v-icon>
+            {{ item.title }}
+          </v-btn>
+        </v-app-bar-items>
+      </v-app-bar>
+      <v-main>
 
-  <RouterView />
+        <!-- <h1>HoosBuying</h1> -->
+        <!-- <NavBar></NavBar> -->
+
+
+
+
+
+        <v-container fluid>
+          <RouterView />
+        </v-container>
+      </v-main>
+    </v-layout>
+  </v-container>
 </template>
+<script>
+//import HelloWorld from "./components/HelloWorld";
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
+export default {
+  name: "App",
+  data() {
+    return {
+      appTitle: 'Awesome App',
+      sidebar: false,
+      menuItems: [
+          // { title: 'Home', path: '/', icon: 'mdi-home' },
+          { title: 'Search', path: '/search', icon: 'mdi-card-search' },
+          { title: 'Create Listing', path: '/insertListing', icon: 'mdi-plus-circle-outline' },
+          { title: 'My Listings', path: '/myListings', icon: 'mdi-store-search' },
+          { title: 'Chats', path: '/chats', icon: 'mdi-forum' },
+          { title: 'Account', path: '/account', icon: 'mdi-account-cowboy-hat-outline' },
+          { title: 'Logout', path: '/logout', icon: 'mdi-exit-run' },
+     ]
+    }
+  },
+  name: "App",
+  computed: {
+    isLoggedIn: function () {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch("LogOut");
+      // this.$router.push("/login");
+    },
+  },
+};
+</script>
 
 
+<style></style>

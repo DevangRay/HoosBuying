@@ -1,3 +1,6 @@
 
 venv
+.venv
 ignore*
+__pycache__
+endpoints/__pycache__

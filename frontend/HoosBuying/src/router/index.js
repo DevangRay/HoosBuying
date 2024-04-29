@@ -8,7 +8,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('../views/SearchView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component:  () => import('../views/AccountView.vue'),
       meta: { requiresAuth: true },
     },
     {
@@ -26,17 +32,49 @@ const router = createRouter({
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/SearchView.vue')
+      component: () => import('../views/SearchView.vue'),
+      meta: { requiresAuth: true },
     },
     {
-      path: '/chat',
+      path: '/chats',
+      name: 'chats',
+      component: () => import('../views/ChatListView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/chats/:id',
       name: 'chat',
-      component: () => import('../views/ChatView.vue')
+      component: () => import('../views/ConversationView.vue'),
+      props: true,
+      meta: { requiresAuth: true },
     },
     {
-      path: '/listing',
+      path: '/listing/:id',
       name: 'listing',
-      component: () => import('../views/ListingView.vue')
+      component: () => import('../views/ListingView.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/insertListing',
+      name: 'insertListing',
+      component: () => import('../views/InsertListing.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/myListings',
+      name: 'myListings',
+      component: () => import('../views/MyListing.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/myListing/:id',
+      name: 'myListing',
+      component: () => import('../views/MySingleListing.vue'),
+      props: true,
+      meta: { requiresAuth: true },
     },
     {
       path: '/about',
@@ -45,6 +83,22 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/LogoutView.vue')
+    },
+    {
+      path: '/searchBar',
+      name: 'searchBar',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../components/SearchBar.vue')
     },
     {
       path: '/getAllUsers',
@@ -59,10 +113,20 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (store.getters.isAuthenticated) {
+      // check token
+      // console.log("checking token");
+      store.dispatch('checkToken')
+      .then((res) => {
+        if (!res){
+          // console.log(res, "is result")
+          store.dispatch("LogOut");
+        }
+      });
+      // console.log("finished checking token");
       next();
       return;
     }
-    next("/getAllUsers");
+    next("/login");
   } else {
     next();
   }

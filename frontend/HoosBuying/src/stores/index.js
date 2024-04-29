@@ -1,6 +1,8 @@
 import {createStore} from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import auth from "./modules/auth";
+import search from "./modules/search";
+import listing from "./modules/listing";
 
 // Load Vuex
 
@@ -8,8 +10,10 @@ import auth from "./modules/auth";
 const store = createStore({
   modules: {
     auth,
+    search,
+    listing,
   },
-//   plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
 });
 
 export default store;

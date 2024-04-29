@@ -1,15 +1,13 @@
 <template>
 
 <nav>
+  <span v-if="isLoggedIn">
     <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/getAllUsers">See Users</RouterLink>
-    <span v-if="isLoggedIn">
-      <a @click="logout">Logout</a>
-    </span>
-    <span v-else>
-      <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link>
+    <RouterLink to="/search">Search</RouterLink>
+    <RouterLink to="/chats">Chats</RouterLink>
+    <RouterLink to="/account">Account</RouterLink>
+    
+    <a @click="logout">Logout</a>
     </span>
 </nav>
   
@@ -26,7 +24,7 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch("LogOut");
-      this.$router.push("/login");
+      // this.$router.push("/login");
     },
   },
 };
