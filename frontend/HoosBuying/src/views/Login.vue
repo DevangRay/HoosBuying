@@ -39,28 +39,25 @@ export default {
   methods: {
     ...mapActions(["LogIn"]),
     async submit() {
-      store.dispatch('getPassword', this.form.username)
-        .then((result) => {
-          this.db_password = result
-        })
-        .then(() => {
-          if (bcrypt.compareSync(this.form.password, this.db_password)) {
-            console.log("PASS")
-            const User = new FormData();
-            User.append("username", this.form.username);
-            User.append('password', this.form.password);
-            try {
-              this.LogIn(User)
-                .then(() => {
-                  this.$router.push("/");
-                  this.showError = false
-                })
-            } catch (error) {
-              console.log("CAUGHT ERROR", error)
-              this.showError = true
-            }
-          }
-        })
+      try {
+        this.db_password = await store.dispatch('getPassword', this.form.username)
+
+        if (bcrypt.compareSync(this.form.password, this.db_password)) {
+          const User = new FormData();
+          User.append("username", this.form.username)
+          // User.append("password", this.form.password)
+
+          await this.LogIn(User)
+          this.$router.push("/");
+          this.showError = false
+        }
+        else{
+          this.showError = true
+        }
+      } catch (error) {
+        console.log("caught error", error)
+        this.showError = true
+      }
     },
   },
 };

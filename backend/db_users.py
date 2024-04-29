@@ -39,8 +39,7 @@ def control_auth(subpath):
         # print("user", request.form['username'])
         # print("password", request.form['password'])
         username = request.form["username"]
-        password = request.form["password"]
-        return auth.login(username, password)
+        return auth.login(username)
 
     # Returns success or failure creating new account
     elif subpath == "register":

@@ -63,7 +63,10 @@ def getUserPassword(username):
         # Create a new record
             cursor.execute("SELECT password FROM `User` WHERE username = %s", (username,))
             result = cursor.fetchone()
-    return result
+    if result:
+        return result
+    else:
+        return "Unable to login", 401
 
 def getUserProfile(username):
     connection = connect()
@@ -108,7 +111,7 @@ def create_random_token(length):
     return result_str
 
     
-def login(username, password):
+def login(username):
     # check username/password is valid
     # user = getUser(username)
     # print("auth.py user is", user)
