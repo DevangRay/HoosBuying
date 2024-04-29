@@ -50,7 +50,7 @@ export default {
       appTitle: 'Awesome App',
       sidebar: false,
       menuItems: [
-          { title: 'Home', path: '/', icon: 'mdi-home' },
+          // { title: 'Home', path: '/', icon: 'mdi-home' },
           { title: 'Search', path: '/search', icon: 'mdi-card-search' },
           { title: 'Create Listing', path: '/insertListing', icon: 'mdi-plus-circle-outline' },
           { title: 'My Listings', path: '/myListings', icon: 'mdi-store-search' },
