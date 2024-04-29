@@ -56,6 +56,13 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/myListings',
+      name: 'myListings',
+      component: () => import('../views/MyListing.vue'),
+      props: true,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
