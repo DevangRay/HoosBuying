@@ -111,17 +111,17 @@ def create_random_token(length):
     return result_str
 
     
-def login(username):
+def login(username, password):
     # check username/password is valid
-    # user = getUser(username)
-    # print("auth.py user is", user)
-    # db_password = user["password"]
-    # print(db_password)
+    user = getUser(username)
+    print("auth.py user is", user)
+    db_password = user["password"]
+    print(db_password)
     
     
-    # if not bcrypt.checkpw(str.encode(password),str.encode(db_password)):
-    #     return f'password: {password}, is wrong', 401
-    # else:
+    if not bcrypt.checkpw(str.encode(password),str.encode(db_password)):
+        return f'password: {password}, is wrong', 401
+    else:
         random_string = create_random_token(50)
         print("random string is", random_string)
         

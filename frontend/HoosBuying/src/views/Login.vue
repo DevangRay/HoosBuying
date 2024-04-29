@@ -45,7 +45,7 @@ export default {
         if (bcrypt.compareSync(this.form.password, this.db_password)) {
           const User = new FormData();
           User.append("username", this.form.username)
-          // User.append("password", this.form.password)
+          User.append("password", this.form.password)
 
           await this.LogIn(User)
           this.$router.push("/");
