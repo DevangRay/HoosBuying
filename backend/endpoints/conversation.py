@@ -103,7 +103,8 @@ def addNewMessage(listing_id,host_id,customer_id,new_message,user_id):
             # Create a new record
                 cursor.execute("CALL add_message(%s,%s,%s,%s,%s)", (listing_id,host_id,customer_id,new_message,user_id))
                 connection.commit()
-                return "Successfully sent message", 200
+                result = cursor.fetchone()
+                return result
     except Exception as e:
         print(e)
         return "Problem sending message", 500  

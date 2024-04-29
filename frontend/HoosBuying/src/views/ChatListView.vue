@@ -83,11 +83,11 @@ export default {
       let url = "";
       if (this.filter == 'Only Buying') {
         console.log("Only Buying")
-        url = "http://127.0.0.1:5000/conversations/getOwner/" + this.uid;
+        url = "http://127.0.0.1:5000/conversations/getCustomer/" + this.uid;
       }
       else if (this.filter == 'Only Selling') {
         console.log("Only Selling")
-        url = "http://127.0.0.1:5000/conversations/getCustomer/" + this.uid;
+        url = "http://127.0.0.1:5000/conversations/getOwner/" + this.uid;
       }
       else
         url = "http://127.0.0.1:5000/conversations/getAll/" + this.uid;

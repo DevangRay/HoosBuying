@@ -37,6 +37,7 @@
             <v-form @submit.prevent="submit">
               <v-textarea clearable label="Type Message" variant="solo-filled" v-model="new_message"
                 bg-color="grey-lighten-2" counter :rules="rules" no-resize></v-textarea>
+                <p color = 'red' v-if="errorMessage">{{ errorMessage }}</p>
               <v-btn type="submit">
                 Send
               </v-btn>
@@ -68,6 +69,7 @@ export default {
       convo: [],
       messages: [],
       new_message: "",
+      errorMessage:null,
       rules: [v => v.length <= 256 || "Max 256 chracters", v => v.length > 0 || "Can't send an empty message"],
     };
   },
@@ -99,6 +101,7 @@ export default {
 
         })
     }, async submit(event) {
+      this.errorMessage = null;
       const results = await event;
       console.log("I got", results.valid, " value is", this.new_message)
 
@@ -110,10 +113,16 @@ export default {
         UserForm.append('customer_id', this.convo['customer_id'])
         UserForm.append('new_message', this.new_message)
         UserForm.append('user_id',  this.uid)
+
+        try{
         let res = await axios.post('conversations/send', UserForm)
 
         console.log(res)
-        this.getConvo(this.$route.params.id)
+        this.getConvo(this.$route.params.id)}
+        catch(e){
+          console.log(e)
+          this.errorMessage = "Error sending message"
+        }
       }
 
     },
