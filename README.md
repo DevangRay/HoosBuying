@@ -4,6 +4,8 @@ This is HoosBuying -- a platform made by, and built for college students who wan
 
 I worked on this project with my roommate, Vlad, as a final project for our Databases class at the University of Virginia.
 
+I am really proud of this project because it felt immensely satisfying to build a full-stack application like this from the bottom up. The project is made using Vue.js, Flask, and MySQL. We hosted our database on Google Cloud, and it was my first time working with a database that was not hosted locally. Setting up our database in Google Cloud was a great experience in growing accustomed to developing on cloud-based infrastructure, and definitely was a helpful lesson as I moved onto using AWS later. It was also both Vlad and I's first time working with Vue.js, but we chose to use it because we wanted to challenge ourselves to diversify the tools we are comfortable with, and I knew it would be helpful to get more comfortable working with Javascript and Javascript-based frameworks.
+
 ***
 
 Since I worked with a partner, I provided a breakdown of the features I was responsible for:
