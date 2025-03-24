@@ -6,9 +6,6 @@ I worked on this project with my roommate, Vlad, as a final project for our Data
 
 Since I worked with a partner, I provided a breakdown of the features I was responsible for:
 * Connecting the Flask API and our Google Cloud-hosted MySQL database to the Vue.js front-end
-* Authentication
-  * Log In/Sign In Flow
-  * Authenticating User Tokens (We authenticated users with an in-house JWT)
 * Routing & NavBar 
 * Platform Features
   * Set-up Search Page and supporting API Calls and SQL Scripts so Users could search Listings
@@ -17,3 +14,11 @@ Since I worked with a partner, I provided a breakdown of the features I was resp
   * Set-up Conversations between Users and saved the Messages Users sent between them to our Database
 
 Vlad worked on:
+
+
+We both worked on a few features together as well:
+* Authentication
+  * Devang
+    * Set up Tables like User and Token
+    * We made an in-house JWT authentication flow, and I wrote the SQL scripts and stored procedures that updated token tables as user's logged in and later had their tokens expire.
+  * Vlad
